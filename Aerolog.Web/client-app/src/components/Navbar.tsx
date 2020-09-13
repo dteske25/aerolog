@@ -15,13 +15,13 @@ const routes = [
     key: "home",
     title: "Home",
     url: "/",
-    icon: (className: string) => <HomeIcon className={className} />,
+    Icon: HomeIcon,
   },
   {
     key: "info",
     title: "Info",
     url: "/info",
-    icon: (className: string) => <InfoIcon className={className} />,
+    Icon: InfoIcon,
   },
   {
     key: "about",
@@ -49,18 +49,20 @@ export default function Navbar() {
   console.log(match);
   return (
     <List>
-      {routes.map(r => (
-        <NavLink 
-          className={classes.link} 
-          activeClassName={classes.activeLink} 
-          isActive={(match) => match?.url === r.url}
-          to={r.url}
+      {routes.map(({ key, title, url, Icon }) => (
+        <NavLink
+          className={classes.link}
+          activeClassName={classes.activeLink}
+          isActive={(match) => match?.url === url}
+          to={url}
         >
-          <ListItem button key={r.key}>
-            {r.icon &&
-              <ListItemIcon>{r.icon(match.url === r.url ? classes.activeLink : classes.link)}</ListItemIcon>
+          <ListItem button key={key}>
+            {Icon &&
+              <ListItemIcon>
+                <Icon className={(match.url === url ? classes.activeLink : classes.link)} />
+              </ListItemIcon>
             }
-            <ListItemText primary={r.title} />
+            <ListItemText primary={title} />
           </ListItem>
         </NavLink>
       ))}
