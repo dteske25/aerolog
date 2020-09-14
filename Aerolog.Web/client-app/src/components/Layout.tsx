@@ -12,6 +12,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Navbar from './Navbar';
+import { Brightness7, Brightness4 } from '@material-ui/icons';
+import StarryNightAnimation from './StarryNightAnimation';
+
+interface ILayoutProps {}
 
 const drawerWidth = 240;
 
@@ -70,9 +74,12 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  toolbar: {
+    width: '100%',
+  },
 }));
 
-export default function Layout(props: React.PropsWithChildren<any>) {
+export default function Layout(props: React.PropsWithChildren<ILayoutProps>) {
   const theme = useTheme();
   const classes = useStyles(theme);
   const [open, setOpen] = React.useState(false);
@@ -120,12 +127,15 @@ export default function Layout(props: React.PropsWithChildren<any>) {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === 'ltr' ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
           </IconButton>
         </div>
         <Divider />
         <Navbar />
-        
       </Drawer>
       <main
         className={clsx(classes.content, {
@@ -133,6 +143,8 @@ export default function Layout(props: React.PropsWithChildren<any>) {
         })}
       >
         <div className={classes.drawerHeader} />
+        <StarryNightAnimation />
+
         {props.children}
       </main>
     </div>

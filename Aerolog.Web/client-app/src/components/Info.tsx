@@ -1,4 +1,9 @@
 import React from 'react';
+import StarryNightAnimation from './StarryNightAnimation';
 
-const Info = () => (<div>Info</div>);
+const Info = () => (
+  <div>
+    More Content
+  </div>
+);
 export default Info;
