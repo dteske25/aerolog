@@ -1,5 +1,13 @@
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/aerolog/aerolog-web', './Aerolog.Web']
-    dir: "."
-images: ['gcr.io/aerolog/aerolog-web']
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "gcr.io/$PROJECT_ID/aerolog-web-$BUILD_ID",
+        "./Aerolog.Web",
+      ]
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/aerolog-web-$BUILD_ID"]
+images:
+  - gcr.io/$PROJECT_ID/aerolog-web-$BUILD_ID
