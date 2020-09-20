@@ -1,0 +1,6 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/aerolog/aerolog-web', './Aerolog.Web']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/aerolog/aerolog-web']
+images: ['gcr.io/aerolog/aerolog-web']
