@@ -5,9 +5,9 @@ steps:
         "build",
         "-t",
         "gcr.io/$PROJECT_ID/aerolog-web-$BUILD_ID",
-        "./Aerolog.Web",
+        "-f",
+        "./Aerolog.Web/Dockerfile",
+        ".",
       ]
-  - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/$PROJECT_ID/aerolog-web-$BUILD_ID"]
 images:
   - gcr.io/$PROJECT_ID/aerolog-web-$BUILD_ID
