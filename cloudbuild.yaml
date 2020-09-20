@@ -4,13 +4,13 @@ steps:
       [
         "build",
         "-t",
-        "gcr.io/$PROJECT_ID/aerolog-web-$BUILD_ID",
+        "gcr.io/$PROJECT_ID/aerolog-web-$SHORT_SHA",
         "-f",
         "./Aerolog.Web/Dockerfile",
         ".",
       ]
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/$PROJECT_ID/aerolog-web-$BUILD_ID"]
+    args: ["push", "gcr.io/$PROJECT_ID/aerolog-web-$SHORT_SHA"]
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
     args:
@@ -19,11 +19,11 @@ steps:
         "deploy",
         "aerolog",
         "--image",
-        "gcr.io/$PROJECT_ID/aerolog-web-$BUILD_ID",
+        "gcr.io/$PROJECT_ID/aerolog-web-$SHORT_SHA",
         "--region",
         "us-central1",
         "--platform",
         "managed",
       ]
 images:
-  - gcr.io/$PROJECT_ID/aerolog-web-$BUILD_ID
+  - gcr.io/$PROJECT_ID/aerolog-web-$SHORT_SHA
