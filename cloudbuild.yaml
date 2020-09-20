@@ -20,8 +20,6 @@ steps:
         "aerolog",
         "--image",
         "gcr.io/$PROJECT_ID/aerolog-web-$BUILD_ID",
-        "--region",
-        "us-central1",
         "--platform",
         "managed",
       ]
