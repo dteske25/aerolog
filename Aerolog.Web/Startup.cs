@@ -72,7 +72,7 @@ namespace Aerolog.Web
 
         private string GetMongoDBConnectionString()
         {
-            return $"mongodb://{Configuration["MongoDB:User"]}:{Configuration["MongoDB:Password"]}@{Configuration["MongoDB:Host"]}:{Configuration["MongoDB:Port"]}";
+            return $"mongodb://{Configuration["MongoDB:User"]}:{Configuration["MongoDB:Password"]}@{Configuration["MongoDB:Host"]}:{Configuration["MongoDB:Port"]}/{Configuration["MongoDB:AuthDatabase"]}";
         }
     }
 }
