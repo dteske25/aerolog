@@ -1,0 +1,30 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+RUN curl -sL https://deb.nodesource.com/setup_12.x |  bash -
+RUN apt-get install -y nodejs
+
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
+RUN curl -sL https://deb.nodesource.com/setup_12.x |  bash -
+RUN apt-get install -y nodejs
+WORKDIR /src
+COPY ["Aerolog.Web/Aerolog.Web.csproj", "Aerolog.Web/"]
+COPY ["Aerolog.Accessors/Aerolog.Accessors.csproj", "Aerolog.Accessors/"]
+COPY ["Aerolog.Core/Aerolog.Core.csproj", "Aerolog.Core/"]
+COPY ["Aerolog.Utilities/Aerolog.Utilities.csproj", "Aerolog.Utilities/"]
+COPY ["Aerolog.Engines/Aerolog.Engines.csproj", "Aerolog.Engines/"]
+RUN dotnet restore "Aerolog.Web/Aerolog.Web.csproj"
+COPY . .
+WORKDIR "/src/Aerolog.Web"
+RUN dotnet build "Aerolog.Web.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Aerolog.Web.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Aerolog.Web.dll"]

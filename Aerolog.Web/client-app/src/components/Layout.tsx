@@ -12,7 +12,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Navbar from './Navbar';
-import { Brightness7, Brightness4 } from '@material-ui/icons';
 import StarryNightAnimation from './StarryNightAnimation';
 
 interface ILayoutProps {}

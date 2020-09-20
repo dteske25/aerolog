@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -20,6 +21,9 @@ namespace Aerolog.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAccessors(GetMongoDBConnectionString(), Configuration["MongoDB:Database"]);
+            services.AddEngines();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the React files will be served from this directory
@@ -60,9 +64,15 @@ namespace Aerolog.Web
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
+                    string spaClientUrl = Configuration["SpaClient"];
+                    spa.UseProxyToSpaDevelopmentServer(spaClientUrl);
                 }
             });
+        }
+
+        private string GetMongoDBConnectionString()
+        {
+            return $"mongodb://{Configuration["MongoDB:User"]}:{Configuration["MongoDB:Password"]}@{Configuration["MongoDB:Host"]}:{Configuration["MongoDB:Port"]}";
         }
     }
 }
