@@ -19,12 +19,18 @@ namespace Aerolog.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
-            string port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-            string url = String.Concat("http://0.0.0.0:", port);
+            string port = Environment.GetEnvironmentVariable("PORT");
 
-            return WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseUrls(url);
+            var builder = WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
+
+            if (port != null)
+            {
+                // This seems to work for GCP so far
+                builder = builder.UseUrls($"http://0.0.0.0:{port}");
+            }
+
+            return builder;
         }
     }
 }
