@@ -141,9 +141,8 @@ export default function Layout(props: React.PropsWithChildren<ILayoutProps>) {
           [classes.contentShift]: open,
         })}
       >
-        <div className={classes.drawerHeader} />
         <StarryNightAnimation />
-
+        <div className={classes.drawerHeader} />
         {props.children}
       </main>
     </div>

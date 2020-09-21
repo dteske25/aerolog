@@ -4,16 +4,18 @@ import 'pathseg';
 import { default as StarryNightAnimationParams } from './StarryNight.config.json';
 
 const StarryNightAnimation = () => (
-  <div
+  <Particles
     style={{
-      position: 'absolute',
+      position: 'fixed',
       top: '0',
       left: '0',
       right: '0',
       bottom: '0',
+      height: '100%',
+      width: '100%',
+      zIndex: -1,
     }}
-  >
-    <Particles params={StarryNightAnimationParams} />
-  </div>
+    params={StarryNightAnimationParams}
+  />
 );
 export default StarryNightAnimation;

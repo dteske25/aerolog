@@ -4,12 +4,12 @@ namespace Aerolog.Core
 {
     public class Series : BaseMongoObject
     {
-        [BsonElement(Fields.SeriesId)]
+        [BsonElement(Fields.SeriesName)]
         public string SeriesName { get; set; }
 
         public static class Fields
         {
-            public const string SeriesId = "sid";
+            public const string SeriesName = "sn";
         }
     }
 }
