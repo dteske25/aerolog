@@ -29,7 +29,7 @@ namespace Aerolog.Web
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = Configuration["SPA_PATH"];
+                configuration.RootPath = "client-app/build";
             });
         }
 
@@ -60,6 +60,7 @@ namespace Aerolog.Web
 
             app.UseSpa(spa =>
             {
+                // Only used in development
                 spa.Options.SourcePath = "client-app";
 
                 if (env.IsDevelopment())
