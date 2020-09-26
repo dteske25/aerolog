@@ -24,7 +24,7 @@ steps:
         "us-central1",
         "--platform",
         "managed",
-        "--set-env-vars=SPA_PATH=https://storage.cloud.google.com/aerolog-client-app/$SHORT_SHA",
+        "--update-env-vars=SPA_PATH=https://storage.cloud.google.com/aerolog-client-app/$SHORT_SHA",
       ]
 images:
   - gcr.io/$PROJECT_ID/aerolog-web-$SHORT_SHA
