@@ -24,6 +24,11 @@ steps:
         "us-central1",
         "--platform",
         "managed",
+        "--set-env-vars=SPA_PATH=https://storage.cloud.google.com/aerolog-client-app/$SHORT_SHA",
       ]
 images:
   - gcr.io/$PROJECT_ID/aerolog-web-$SHORT_SHA
+artifacts:
+  objects:
+    location: "gs://aerolog-client-app/$SHORT_SHA"
+    paths: [./Aerolog.Web/client-app/build/*]
