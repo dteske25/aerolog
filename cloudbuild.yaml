@@ -11,6 +11,12 @@ steps:
       ]
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/aerolog-web-$SHORT_SHA"]
+  - name: node
+    args: ["npm", "install"]
+    dir: './Aerolog.Web/client-app'
+  - name: node
+    args: ["npm", "run", "build"]
+    dir: './Aerolog.Web/client-app'
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
     args:
