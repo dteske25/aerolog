@@ -6,17 +6,21 @@ steps:
         "-t",
         "gcr.io/$PROJECT_ID/aerolog-web-$SHORT_SHA",
         "-f",
-        "./Aerolog.Web/Dockerfile",
+        "./Aerolog.Web/Dockerfile.prod",
         ".",
       ]
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/aerolog-web-$SHORT_SHA"]
   - name: node
     args: ["npm", "install"]
-    dir: './Aerolog.Web/client-app'
+    dir: "./Aerolog.Web/client-app"
   - name: node
     args: ["npm", "run", "build"]
-    dir: './Aerolog.Web/client-app'
+    env:
+      [
+        "PUBLIC_URL=https://storage.googleapis.com/aerolog-client-app/$SHORT_SHA",
+      ]
+    dir: "./Aerolog.Web/client-app"
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
     args:
