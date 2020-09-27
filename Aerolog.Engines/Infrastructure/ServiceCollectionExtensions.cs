@@ -6,6 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddEngines(this IServiceCollection services)
         {
+            services.AddTransient<IFileEngine, FileEngine>();
             services.AddTransient<ISeriesEngine, SeriesEngine>();
             services.AddTransient<IMissionEngine, MissionEngine>();
             services.AddTransient<ILogEngine, LogEngine>();

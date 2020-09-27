@@ -1,12 +1,7 @@
 import React from 'react';
-import {
-  Typography,
-  makeStyles,
-  TextField,
-  InputAdornment,
-  Grid,
-} from '@material-ui/core';
+import { Typography, makeStyles, TextField, InputAdornment, Grid, Fade } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import { Skeleton } from '@material-ui/lab';
 
 const useStyles = makeStyles(() => ({
   search: {
@@ -15,28 +10,48 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface ITitleBarProps {
-  title: string;
+  title: React.ReactNode;
+  searchText?: string;
+  isLoading?: boolean;
 }
 
 const TitleBar = (props: ITitleBarProps) => {
   const classes = useStyles();
+  if (props.isLoading) {
+    return <TitleBarSkeleton />;
+  }
   return (
-    <Grid container spacing={3}>
-      <Grid item md={4} sm={6} xs={12}>
-        <Typography variant="h4">{props.title}</Typography>
+    <Fade in>
+      <Grid container justify="space-between" spacing={3}>
+        <Grid item md={4} sm={6} xs={12}>
+          <Typography variant="h4">{props.title}</Typography>
+        </Grid>
+        <Grid item md={4} sm={6} xs={12}>
+          <TextField
+            className={classes.search}
+            label={props.searchText ?? `Search ${props.title}`}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Grid>
       </Grid>
-      <Grid item md={8} sm={6} xs={12}>
-        <TextField
-          className={classes.search}
-          label={`Search ${props.title}`}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
+    </Fade>
+  );
+};
+
+const TitleBarSkeleton = () => {
+  return (
+    <Grid container justify="space-between" spacing={3}>
+      <Grid item md={4} sm={6} xs={12}>
+        <Skeleton variant="rect" height={40} />
+      </Grid>
+      <Grid item md={4} sm={6} xs={12}>
+        <Skeleton variant="rect" height={40} />
       </Grid>
     </Grid>
   );
