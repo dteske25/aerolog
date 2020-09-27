@@ -4,8 +4,12 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
+RUN curl -sL https://deb.nodesource.com/setup_12.x |  bash -
+RUN apt-get install -y nodejs
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
+RUN curl -sL https://deb.nodesource.com/setup_12.x |  bash -
+RUN apt-get install -y nodejs
 WORKDIR /src
 COPY ["Aerolog.Web/Aerolog.Web.csproj", "Aerolog.Web/"]
 COPY ["Aerolog.Accessors/Aerolog.Accessors.csproj", "Aerolog.Accessors/"]
