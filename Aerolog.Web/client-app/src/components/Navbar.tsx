@@ -5,27 +5,35 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import InfoIcon from '@material-ui/icons/Info';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import { NavLink, useLocation } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core';
 import clsx from 'clsx';
+import routes from '../utilities/routes';
 
-const routes = [
+const navItems = [
   {
     key: 'home',
     title: 'Home',
-    url: '/',
+    url: routes.home,
     Icon: HomeIcon,
+  },
+  {
+    key: 'seriesList',
+    title: 'Series List',
+    url: routes.seriesList,
+    Icon: DashboardIcon,
   },
   {
     key: 'info',
     title: 'Info',
-    url: '/info',
+    url: routes.info,
     Icon: InfoIcon,
   },
   {
     key: 'about',
     title: 'About',
-    url: '/about',
+    url: routes.about,
   },
 ];
 
@@ -50,9 +58,8 @@ export default function Navbar() {
   const location = useLocation();
   return (
     <List>
-      {routes.map(({ key, title, url, Icon }) => {
-        const className =
-          location.pathname === url ? classes.activeLink : classes.link;
+      {navItems.map(({ key, title, url, Icon }) => {
+        const className = location.pathname === url ? classes.activeLink : classes.link;
         return (
           <NavLink
             className={classes.link}
@@ -61,12 +68,7 @@ export default function Navbar() {
             to={url}
             key={key}
           >
-            <ListItem
-              className={clsx(
-                location.pathname === url && classes.activeLinkBackground,
-              )}
-              button
-            >
+            <ListItem className={clsx(location.pathname === url && classes.activeLinkBackground)} button>
               {Icon && (
                 <ListItemIcon>
                   <Icon className={className} />

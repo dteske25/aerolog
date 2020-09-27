@@ -1,14 +1,13 @@
-import React, { useEffect, useCallback } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSnackbar } from 'notistack';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import { Button } from '@material-ui/core';
-import SeriesList from './SeriesList';
+import { Button, Typography } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import routes from '../utilities/routes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    textAlign: 'center',
   },
   paper: {
     padding: theme.spacing(2),
@@ -21,7 +20,11 @@ const Home = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <SeriesList />
+      <Typography variant="h2">Aerolog</Typography>
+      <Typography>Explore the logs of previous missions</Typography>
+      <Link to={routes.seriesList}>
+        <Button>Enter</Button>
+      </Link>
     </div>
   );
 };

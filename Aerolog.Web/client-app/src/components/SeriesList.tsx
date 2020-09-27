@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { getAllSeries, ISeries } from '../services/seriesService';
-import {
-  Typography,
-  Card,
-  CardContent,
-  Grid,
-  CardActions,
-  makeStyles,
-  useTheme,
-  CardMedia,
-  Button,
-  TextField,
-  InputAdornment,
-} from '@material-ui/core';
+import { getAllSeries } from '../services/seriesService';
+import { Grid, makeStyles, useTheme, Button } from '@material-ui/core';
 import TitleBar from './TitleBar';
 import { Link } from 'react-router-dom';
+import ErrorBoundary from './ErrorBoundary';
+import ImageCard, { ImageCardSkeleton } from './ImageCard';
+import { IInjectedLoadingProps, withLoading } from '../utilities/LoadingContext';
+import { ISeries } from '../types/series';
 
 const useStyles = makeStyles((theme) => ({
   headerRow: {
@@ -32,45 +24,53 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SeriesList = () => {
+interface ISeriesList {}
+
+const SeriesList = (props: ISeriesList & IInjectedLoadingProps) => {
+  const { setLoading, isLoading } = props;
   const [series, setSeries] = useState<ISeries[]>();
-  const loadData = async () => {
-    setSeries(await getAllSeries());
-  };
 
   const theme = useTheme();
   const classes = useStyles(theme);
+
+  const loadData = React.useCallback(async () => {
+    setLoading(true);
+    setSeries(await getAllSeries());
+    setLoading(false);
+  }, [setLoading]);
+
   useEffect(() => {
     loadData();
-  }, []);
+  }, [loadData]);
   return (
-    <div>
-      <TitleBar title="Series" />
+    <ErrorBoundary message="Failed to load Series">
+      <TitleBar title="Series" isLoading={isLoading} />
 
       <Grid container spacing={3}>
+        {isLoading && (
+          <>
+            <ImageCardSkeleton />
+            <ImageCardSkeleton />
+            <ImageCardSkeleton />
+          </>
+        )}
         {series?.map((s) => (
-          <Grid key={s.id} item xs={12} sm={6} md={4}>
-            <Card>
-              <CardMedia
-                image="/static/images/cards/contemplative-reptile.jpg"
-                title="Contemplative Reptile"
-              />
-              <CardContent>
-                <Typography>{s.seriesName}</Typography>
-              </CardContent>
-              <CardActions>
-                <Link className={classes.link} to={`/series/${s.id}`}>
-                  <Button size="small" color="primary">
-                    View Missions
-                  </Button>
-                </Link>
-              </CardActions>
-            </Card>
-          </Grid>
+          <ImageCard
+            key={s.id}
+            file={s.file}
+            title={s.seriesName}
+            actions={
+              <Link className={classes.link} to={`/series/${s.id}`}>
+                <Button size="small" color="primary">
+                  View Missions
+                </Button>
+              </Link>
+            }
+          />
         ))}
       </Grid>
-    </div>
+    </ErrorBoundary>
   );
 };
 
-export default SeriesList;
+export default withLoading(SeriesList);

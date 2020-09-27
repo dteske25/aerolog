@@ -13,6 +13,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Navbar from './Navbar';
 import StarryNightAnimation from './StarryNightAnimation';
+import { Fade, LinearProgress } from '@material-ui/core';
+import { LoadingContext } from '../utilities/LoadingContext';
 
 interface ILayoutProps {}
 
@@ -82,6 +84,7 @@ export default function Layout(props: React.PropsWithChildren<ILayoutProps>) {
   const theme = useTheme();
   const classes = useStyles(theme);
   const [open, setOpen] = React.useState(false);
+  const loadingContext = React.useContext(LoadingContext);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -114,6 +117,7 @@ export default function Layout(props: React.PropsWithChildren<ILayoutProps>) {
             Aerolog
           </Typography>
         </Toolbar>
+        {loadingContext.isLoading && <LinearProgress color="secondary" />}
       </AppBar>
       <Drawer
         className={classes.drawer}
@@ -126,11 +130,7 @@ export default function Layout(props: React.PropsWithChildren<ILayoutProps>) {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
         <Divider />
@@ -143,7 +143,9 @@ export default function Layout(props: React.PropsWithChildren<ILayoutProps>) {
       >
         <StarryNightAnimation />
         <div className={classes.drawerHeader} />
-        {props.children}
+        <Fade in>
+          <div style={{ width: '65vw', margin: 'auto' }}>{props.children}</div>
+        </Fade>
       </main>
     </div>
   );
