@@ -7,7 +7,7 @@ steps:
         "gcr.io/$PROJECT_ID/aerolog-web-$SHORT_SHA",
         "-f",
         "./Aerolog.Web/Dockerfile",
-        ".",
+        "./Aerolog.Web",
       ]
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/aerolog-web-$SHORT_SHA"]

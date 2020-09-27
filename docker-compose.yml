@@ -24,8 +24,8 @@ services:
   aerolog.web:
     image: ${DOCKER_REGISTRY-}aerologweb
     build:
-      context: .
-      dockerfile: Aerolog.Web/Dockerfile
+      context: Aerolog.Web
+      dockerfile: Dockerfile
     environment:
       MongoDB__Host: mongo
       MongoDB__User: root

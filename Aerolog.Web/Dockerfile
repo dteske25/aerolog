@@ -11,12 +11,12 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 RUN curl -sL https://deb.nodesource.com/setup_12.x |  bash -
 RUN apt-get install -y nodejs
 WORKDIR /src
-COPY ["Aerolog.Web/Aerolog.Web.csproj", "Aerolog.Web/"]
-COPY ["Aerolog.Accessors/Aerolog.Accessors.csproj", "Aerolog.Accessors/"]
-COPY ["Aerolog.Core/Aerolog.Core.csproj", "Aerolog.Core/"]
-COPY ["Aerolog.Utilities/Aerolog.Utilities.csproj", "Aerolog.Utilities/"]
-COPY ["Aerolog.Engines/Aerolog.Engines.csproj", "Aerolog.Engines/"]
-RUN dotnet restore "Aerolog.Web/Aerolog.Web.csproj"
+COPY ["Aerolog.Web.csproj", "Aerolog.Web/"]
+COPY ["../Aerolog.Accessors/Aerolog.Accessors.csproj", "Aerolog.Accessors/"]
+COPY ["../Aerolog.Core/Aerolog.Core.csproj", "Aerolog.Core/"]
+COPY ["../Aerolog.Utilities/Aerolog.Utilities.csproj", "Aerolog.Utilities/"]
+COPY ["../Aerolog.Engines/Aerolog.Engines.csproj", "Aerolog.Engines/"]
+RUN dotnet restore "Aerolog.Web.csproj"
 COPY . .
 WORKDIR "/src/Aerolog.Web"
 RUN dotnet build "Aerolog.Web.csproj" -c Release -o /app/build
