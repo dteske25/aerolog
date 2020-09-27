@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Aerolog.Engines;
@@ -34,9 +35,26 @@ namespace Aerolog.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateSeries([FromBody]CreateSeriesParams seriesParams)
+        public async Task<IActionResult> CreateSeries([FromForm]CreateSeriesParams seriesParams)
         {
-            var series = await _seriesEngine.CreateSeries(seriesParams.SeriesName);
+            var requestFile = seriesParams.Files.FirstOrDefault();
+            Core.File file = null;
+            if (requestFile != null)
+            {
+                file = new Core.File
+                {
+                    ContentDisposition = requestFile?.ContentDisposition,
+                    ContentType = requestFile?.ContentType,
+                    FileName = requestFile?.FileName,
+                };
+                using (var stream = new MemoryStream())
+                {
+                    await requestFile.OpenReadStream().CopyToAsync(stream);
+                    file.FileContent = stream.ToArray();
+                }
+            }
+            
+            var series = await _seriesEngine.CreateSeries(seriesParams.SeriesName, file);
             return Ok(series);
         }
     }

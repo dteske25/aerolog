@@ -13,6 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
             mongoContext.CreateIndexes();
             services.AddScoped(p => mongoContext);
 
+            services.AddTransient<IFileAccessor, FileAccessor>();
             services.AddTransient<ISeriesAccessor, SeriesAccessor>();
             services.AddTransient<IMissionAccessor, MissionAccessor>();
             services.AddTransient<ILogAccessor, LogAccessor>();
