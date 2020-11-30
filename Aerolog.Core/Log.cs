@@ -10,13 +10,20 @@ namespace Aerolog.Core
     {
         [BsonElement(Fields.Text)]
         public string Text { get; set; }
+
         [BsonElement(Fields.Timestamp)]
         public DateTime Timestamp { get; set; }
+
         [BsonElement(Fields.SpeakerName)]
         public string SpeakerName { get; set; }
+
         [BsonElement(Fields.MissionId)]
         [BsonRepresentation(BsonType.ObjectId)]
         public string MissionId { get; set; }
+
+        [BsonElement(Fields.SeriesId)]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string SeriesId { get; set; }
 
         public static class Fields
         {
@@ -24,6 +31,7 @@ namespace Aerolog.Core
             public const string Timestamp = "d";
             public const string SpeakerName = "sn";
             public const string MissionId = "l_mid";
+            public const string SeriesId = "l_sid";
         }
     }
 }

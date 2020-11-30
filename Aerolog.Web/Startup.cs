@@ -1,9 +1,9 @@
-using System;
+using Aerolog.GraphQL;
+using GraphiQl;
+using GraphQL.Server;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,7 +23,8 @@ namespace Aerolog.Web
         {
             services.AddAccessors(GetMongoDBConnectionString(), Configuration["MongoDB:Database"]);
             services.AddEngines();
-
+            services.AddGraph();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the React files will be served from this directory
@@ -36,6 +37,7 @@ namespace Aerolog.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -50,6 +52,10 @@ namespace Aerolog.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            // app.UseGraphQL<AerologSchema, AerologGraphQLMiddleware<AerologSchema>>();
+            app.UseGraphQL<AerologSchema>();
+            app.UseGraphiQl("/graphql-ui");
 
             app.UseMvc(routes =>
             {

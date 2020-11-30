@@ -13,6 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="graphiql" Version="2.0.0" />
+    <PackageReference Include="GraphQL" Version="2.4.0" />
+    <PackageReference Include="GraphQL.Server.Core" Version="3.4.0" />
+    <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="3.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
@@ -30,6 +34,7 @@
     <ProjectReference Include="..\Aerolog.Accessors\Aerolog.Accessors.csproj" />
     <ProjectReference Include="..\Aerolog.Core\Aerolog.Core.csproj" />
     <ProjectReference Include="..\Aerolog.Engines\Aerolog.Engines.csproj" />
+    <ProjectReference Include="..\Aerolog.GraphQL\Aerolog.GraphQL.csproj" />
     <ProjectReference Include="..\Aerolog.Utilities\Aerolog.Utilities.csproj" />
   </ItemGroup>
 

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Aerolog.Accessors.Infrastructure;
 using Aerolog.Core;
 
-namespace Aerolog.Accessors.Infrastructure
+namespace Aerolog.Accessors
 {
     public class LogAccessor : BaseMongoAccessor<Log>, ILogAccessor
     {
