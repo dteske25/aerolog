@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { getAllSeries } from '../services/seriesService';
+import React from 'react';
+import { useQuery } from '@apollo/client';
+import { allSeriesQuery } from '../services/seriesService';
 import { Grid, makeStyles, useTheme, Button } from '@material-ui/core';
 import TitleBar from './TitleBar';
 import { Link } from 'react-router-dom';
 import ErrorBoundary from './ErrorBoundary';
 import ImageCard, { ImageCardSkeleton } from './ImageCard';
-import { IInjectedLoadingProps, withLoading } from '../utilities/LoadingContext';
 import { ISeries } from '../types/series';
 
 const useStyles = makeStyles((theme) => ({
@@ -26,35 +26,28 @@ const useStyles = makeStyles((theme) => ({
 
 interface ISeriesList {}
 
-const SeriesList = (props: ISeriesList & IInjectedLoadingProps) => {
-  const { setLoading, isLoading } = props;
-  const [series, setSeries] = useState<ISeries[]>();
-
+const SeriesList = (props: ISeriesList) => {
   const theme = useTheme();
   const classes = useStyles(theme);
+  const { loading, data, error } = useQuery(allSeriesQuery);
 
-  const loadData = React.useCallback(async () => {
-    setLoading(true);
-    setSeries(await getAllSeries());
-    setLoading(false);
-  }, [setLoading]);
+  if (error) {
+    throw error.message;
+  }
 
-  useEffect(() => {
-    loadData();
-  }, [loadData]);
   return (
     <ErrorBoundary message="Failed to load Series">
-      <TitleBar title="Series" isLoading={isLoading} />
+      <TitleBar title="Series" isLoading={loading} />
 
       <Grid container spacing={3}>
-        {isLoading && (
+        {loading && (
           <>
             <ImageCardSkeleton />
             <ImageCardSkeleton />
             <ImageCardSkeleton />
           </>
         )}
-        {series?.map((s) => (
+        {data?.series?.map((s: ISeries) => (
           <ImageCard
             key={s.id}
             file={s.file}
@@ -73,4 +66,4 @@ const SeriesList = (props: ISeriesList & IInjectedLoadingProps) => {
   );
 };
 
-export default withLoading(SeriesList);
+export default SeriesList;

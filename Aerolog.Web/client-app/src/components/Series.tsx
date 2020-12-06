@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useRouteMatch } from 'react-router';
-import { getSeries } from '../services/seriesService';
+import { seriesQuery } from '../services/seriesService';
+import { useQuery } from '@apollo/client';
 import TitleBar from './TitleBar';
-import { IInjectedLoadingProps, withLoading } from '../utilities/LoadingContext';
 import ErrorBoundary from './ErrorBoundary';
-import { ISeries } from '../types/series';
 import { IMission } from '../types/mission';
-import { getMissionsBySeriesId } from '../services/missionService';
 import { Grid, Button, useTheme, makeStyles } from '@material-ui/core';
 import ImageCard, { ImageCardSkeleton } from './ImageCard';
 import routes from '../utilities/routes';
@@ -34,41 +32,34 @@ interface ISeriesUrlProps {
 
 interface ISeriesProps {}
 
-const Series = (props: ISeriesProps & IInjectedLoadingProps) => {
-  const { setLoading, isLoading } = props;
+const Series = (props: ISeriesProps) => {
   const match = useRouteMatch<ISeriesUrlProps>();
-  const [series, setSeries] = useState<ISeries>();
-  const [missions, setMissions] = useState<IMission[]>();
-  const loadData = React.useCallback(
-    async (id: string) => {
-      setLoading(true);
-      setSeries(await getSeries(id));
-      setMissions(await getMissionsBySeriesId(id));
-      setLoading(false);
-    },
-    [setLoading],
-  );
-
-  useEffect(() => {
-    loadData(match.params.id);
-  }, [loadData, match.params.id]);
+  const { loading, data, error } = useQuery(seriesQuery, { variables: { seriesId: match.params.id } });
 
   const theme = useTheme();
   const classes = useStyles(theme);
 
+  if (error) {
+    throw error.message;
+  }
+
   return (
     <ErrorBoundary message="Error loading series">
-      <TitleBar title={series?.seriesName} searchText={`Search ${series?.seriesName} Missions`} isLoading={isLoading} />
+      <TitleBar
+        title={data?.series?.seriesName}
+        searchText={`Search ${data?.series[0].seriesName} Missions`}
+        isLoading={loading}
+      />
 
       <Grid container spacing={3}>
-        {isLoading && (
+        {loading && (
           <>
             <ImageCardSkeleton />
             <ImageCardSkeleton />
             <ImageCardSkeleton />
           </>
         )}
-        {missions?.map((m) => (
+        {data?.series[0].missions?.map((m: IMission) => (
           <ImageCard
             key={m.id}
             file={m.file}
@@ -87,4 +78,4 @@ const Series = (props: ISeriesProps & IInjectedLoadingProps) => {
   );
 };
 
-export default withLoading(Series);
+export default Series;

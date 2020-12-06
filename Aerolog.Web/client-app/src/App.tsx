@@ -1,4 +1,6 @@
 import React from 'react';
+import { ApolloProvider } from '@apollo/client';
+import { client } from './apiHelper';
 import Layout from './components/Layout';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Info from './components/Info';
@@ -30,42 +32,44 @@ function App() {
     notistackRef.current.closeSnackbar(key);
   };
   return (
-    <ThemeProvider theme={theme}>
-      <SnackbarProvider
-        maxSnack={3}
-        ref={notistackRef}
-        action={(key) => (
-          <IconButton onClick={onClickDismiss(key)}>
-            <CloseIcon />
-          </IconButton>
-        )}
-      >
-        <LoadingProvider>
-          <Router>
-            <Layout>
-              <Switch>
-                <Route path={routes.missionDetails}>
-                  <Mission />
-                </Route>
-                <Route path={routes.seriesDetails}>
-                  <Series />
-                </Route>
-                <Route path={routes.seriesList}>
-                  <SeriesList />
-                </Route>
-                <Route path={routes.info}>
-                  <Info />
-                </Route>
-                <Route path={routes.about}>About</Route>
-                <Route path={routes.home}>
-                  <Home />
-                </Route>
-              </Switch>
-            </Layout>
-          </Router>
-        </LoadingProvider>
-      </SnackbarProvider>
-    </ThemeProvider>
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider
+          maxSnack={3}
+          ref={notistackRef}
+          action={(key) => (
+            <IconButton onClick={onClickDismiss(key)}>
+              <CloseIcon />
+            </IconButton>
+          )}
+        >
+          <LoadingProvider>
+            <Router>
+              <Layout>
+                <Switch>
+                  <Route path={routes.missionDetails}>
+                    <Mission />
+                  </Route>
+                  <Route path={routes.seriesDetails}>
+                    <Series />
+                  </Route>
+                  <Route path={routes.seriesList}>
+                    <SeriesList />
+                  </Route>
+                  <Route path={routes.info}>
+                    <Info />
+                  </Route>
+                  <Route path={routes.about}>About</Route>
+                  <Route path={routes.home}>
+                    <Home />
+                  </Route>
+                </Switch>
+              </Layout>
+            </Router>
+          </LoadingProvider>
+        </SnackbarProvider>
+      </ThemeProvider>
+    </ApolloProvider>
   );
 }
 

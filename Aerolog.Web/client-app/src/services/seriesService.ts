@@ -1,12 +1,35 @@
-import { get } from '../apiHelper';
-import type { ISeries } from '../types/series';
+import { gql } from '@apollo/client';
 
-export const getAllSeries = async () => {
-  const response = await get<ISeries[]>('/api/Series');
-  return response;
-};
+export const allSeriesQuery = gql`
+  query allSeriesQuery {
+    series {
+      id
+      seriesName
+      file {
+        id
+        contentType
+        fileName
+      }
+      missionCount
+    }
+  }
+`;
 
-export const getSeries = async (id: string) => {
-  const response = await get<ISeries>(`/api/Series/${id}`);
-  return response;
-};
+export const seriesQuery = gql`
+  query seriesQuery($seriesId: String) {
+    series(seriesId: $seriesId) {
+      id
+      seriesName
+      missions {
+        id
+        file {
+          id
+          contentType
+          fileName
+        }
+        missionName
+        logCount
+      }
+    }
+  }
+`;
