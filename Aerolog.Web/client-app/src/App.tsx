@@ -10,7 +10,6 @@ import Mission from './components/Mission';
 import { createMuiTheme, ThemeProvider, IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { SnackbarProvider } from 'notistack';
-import { LoadingProvider } from './utilities/LoadingContext';
 import SeriesList from './components/SeriesList';
 import routes from './utilities/routes';
 
@@ -43,30 +42,28 @@ function App() {
             </IconButton>
           )}
         >
-          <LoadingProvider>
-            <Router>
-              <Layout>
-                <Switch>
-                  <Route path={routes.missionDetails}>
-                    <Mission />
-                  </Route>
-                  <Route path={routes.seriesDetails}>
-                    <Series />
-                  </Route>
-                  <Route path={routes.seriesList}>
-                    <SeriesList />
-                  </Route>
-                  <Route path={routes.info}>
-                    <Info />
-                  </Route>
-                  <Route path={routes.about}>About</Route>
-                  <Route path={routes.home}>
-                    <Home />
-                  </Route>
-                </Switch>
-              </Layout>
-            </Router>
-          </LoadingProvider>
+          <Router>
+            <Layout>
+              <Switch>
+                <Route path={routes.missionDetails}>
+                  <Mission />
+                </Route>
+                <Route path={routes.seriesDetails}>
+                  <Series />
+                </Route>
+                <Route path={routes.seriesList}>
+                  <SeriesList />
+                </Route>
+                <Route path={routes.info}>
+                  <Info />
+                </Route>
+                <Route path={routes.about}>About</Route>
+                <Route path={routes.home}>
+                  <Home />
+                </Route>
+              </Switch>
+            </Layout>
+          </Router>
         </SnackbarProvider>
       </ThemeProvider>
     </ApolloProvider>

@@ -12,12 +12,14 @@ namespace Aerolog.GraphQL
         private readonly ISeriesAccessor _seriesAccessor;
         private readonly IMissionAccessor _missionAccessor;
         private readonly ILogAccessor _logAccessor;
+        private readonly IEventAccessor _eventAccessor;
 
-        public QueryResolver(ISeriesAccessor seriesAccessor, IMissionAccessor missionAccessor, ILogAccessor logAccessor)
+        public QueryResolver(ISeriesAccessor seriesAccessor, IMissionAccessor missionAccessor, ILogAccessor logAccessor, IEventAccessor eventAccessor)
         {
             _seriesAccessor = seriesAccessor;
             _missionAccessor = missionAccessor;
             _logAccessor = logAccessor;
+            _eventAccessor = eventAccessor;
         }
 
         public QueryResolverArguments GetSeries => new QueryResolverArguments
@@ -82,6 +84,23 @@ namespace Aerolog.GraphQL
                 return await _logAccessor.Get(l => l.SeriesId == seriesId);
             }
             return await _logAccessor.GetAll();
+        }
+
+        public QueryResolverArguments GetEvents => new QueryResolverArguments
+        {
+            Args = new QueryArguments(new QueryArgument<StringGraphType> { Name = "eventId" }, new QueryArgument<StringGraphType> { Name = "missionId" }),
+            Resolve = GetEventFunc
+        };
+
+        private async Task<IEnumerable<Event>> GetEventFunc(ResolveFieldContext<object> context)
+        {
+            var eventId = context.GetArgument<string>("eventId");
+            if (eventId != null)
+            {
+                return await _eventAccessor.Get(e => e.Id == eventId);
+            }
+            var missionId = context.GetArgument<string>("missionId");
+            return await _eventAccessor.Get(e => e.MissionId == missionId);
         }
     }
 }

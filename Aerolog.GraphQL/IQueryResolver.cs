@@ -8,5 +8,6 @@ namespace Aerolog.GraphQL
         QueryResolverArguments GetSeries { get; }
         QueryResolverArguments GetMissions { get; }
         QueryResolverArguments GetLogs { get; }
+        QueryResolverArguments GetEvents { get; }
     }
 }

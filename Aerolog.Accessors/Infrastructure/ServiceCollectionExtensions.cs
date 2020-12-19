@@ -17,6 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ISeriesAccessor, SeriesAccessor>();
             services.AddTransient<IMissionAccessor, MissionAccessor>();
             services.AddTransient<ILogAccessor, LogAccessor>();
+            services.AddTransient<IEventAccessor, EventAccessor>();
 
             return services;
         }
