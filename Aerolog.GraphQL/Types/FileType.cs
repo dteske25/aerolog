@@ -14,7 +14,6 @@ namespace Aerolog.GraphQL.QueryTypes
             Field(f => f.ContentDisposition);
             Field(f => f.FileId);
             Field(f => f.FileName);
-            // Field(f => f.FileContent);
         }
     }
 }

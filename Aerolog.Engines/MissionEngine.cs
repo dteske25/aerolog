@@ -57,6 +57,14 @@ namespace Aerolog.Engines
             return mission;
         }
 
-        
+        public async Task<long> GetMissionCountBySeriesId(string seriesId)
+        {
+            return await _missionAccessor.Count(m => m.SeriesId == seriesId);
+        }
+
+        public async Task<IEnumerable<Mission>> GetAll()
+        {
+            return await _missionAccessor.GetAll();
+        }
     }
 }

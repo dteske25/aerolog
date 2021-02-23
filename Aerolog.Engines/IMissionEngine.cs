@@ -11,6 +11,8 @@ namespace Aerolog.Engines
     {
         Task<Mission> GetMission(string id);
         Task<IEnumerable<Mission>> GetMissionsBySeriesId(string seriesId);
+        Task<long> GetMissionCountBySeriesId(string seriesId);
+        Task<IEnumerable<Mission>> GetAll();
         Task<Mission> CreateMission(string missionName, string seriesId, File file = null);
     }
 }

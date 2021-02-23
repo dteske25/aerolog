@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Aerolog.Accessors;
 using Aerolog.Core;
+using Aerolog.Engines;
 using Aerolog.GraphQL.Infrastructure;
 using GraphQL.Types;
 
@@ -9,17 +10,17 @@ namespace Aerolog.GraphQL
 {
     public class QueryResolver : IQueryResolver
     {
-        private readonly ISeriesAccessor _seriesAccessor;
-        private readonly IMissionAccessor _missionAccessor;
-        private readonly ILogAccessor _logAccessor;
-        private readonly IEventAccessor _eventAccessor;
+        private readonly ISeriesEngine _seriesEngine;
+        private readonly IMissionEngine _missionEngine;
+        private readonly ILogEngine _logEngine;
+        private readonly IEventEngine _eventEngine;
 
-        public QueryResolver(ISeriesAccessor seriesAccessor, IMissionAccessor missionAccessor, ILogAccessor logAccessor, IEventAccessor eventAccessor)
+        public QueryResolver(ISeriesEngine seriesEngine, IMissionEngine missionEngine, ILogEngine logEngine, IEventEngine eventEngine)
         {
-            _seriesAccessor = seriesAccessor;
-            _missionAccessor = missionAccessor;
-            _logAccessor = logAccessor;
-            _eventAccessor = eventAccessor;
+            _seriesEngine = seriesEngine;
+            _missionEngine = missionEngine;
+            _logEngine = logEngine;
+            _eventEngine = eventEngine;
         }
 
         public QueryResolverArguments GetSeries => new QueryResolverArguments
@@ -34,9 +35,10 @@ namespace Aerolog.GraphQL
 
             if (seriesId != null)
             {
-                return await _seriesAccessor.Get(s => s.Id == seriesId);
+                var series = await _seriesEngine.GetSeries(seriesId);
+                return new List<Series> { series };
             }
-            return await _seriesAccessor.GetAll();
+            return await _seriesEngine.GetAll();
         }
 
         public QueryResolverArguments GetMissions => new QueryResolverArguments
@@ -50,14 +52,15 @@ namespace Aerolog.GraphQL
             var missionId = context.GetArgument<string>("missionId");
             if (missionId != null)
             {
-                return await _missionAccessor.Get(m => m.Id == missionId);
+                var mission = await _missionEngine.GetMission(missionId);
+                return new List<Mission> { mission };
             }
             var seriesId = context.GetArgument<string>("seriesId");
             if (seriesId != null)
             {
-                return await _missionAccessor.Get(m => m.SeriesId == seriesId);
+                return await _missionEngine.GetMissionsBySeriesId(seriesId);
             }
-            return await _missionAccessor.GetAll();
+            return await _missionEngine.GetAll();
         }
 
         public QueryResolverArguments GetLogs => new QueryResolverArguments
@@ -71,19 +74,20 @@ namespace Aerolog.GraphQL
             var logId = context.GetArgument<string>("logId");
             if (logId != null)
             {
-                return await _logAccessor.Get(l => l.Id == logId);
+                var log = await _logEngine.GetLog(logId);
+                return new List<Log> { log };
             }
             var missionId = context.GetArgument<string>("missionId");
             if (missionId != null)
             {
-                return await _logAccessor.Get(l => l.MissionId == missionId);
+                return await _logEngine.GetLogsByMissionId(missionId);
             }
             var seriesId = context.GetArgument<string>("seriesId");
             if (seriesId != null)
             {
-                return await _logAccessor.Get(l => l.SeriesId == seriesId);
+                return await _logEngine.GetLogsBySeriesId(seriesId);
             }
-            return await _logAccessor.GetAll();
+            return await _logEngine.GetAll();
         }
 
         public QueryResolverArguments GetEvents => new QueryResolverArguments
@@ -97,10 +101,11 @@ namespace Aerolog.GraphQL
             var eventId = context.GetArgument<string>("eventId");
             if (eventId != null)
             {
-                return await _eventAccessor.Get(e => e.Id == eventId);
+                var @event = await _eventEngine.GetEvent(eventId);
+                return new List<Event> { @event };
             }
             var missionId = context.GetArgument<string>("missionId");
-            return await _eventAccessor.Get(e => e.MissionId == missionId);
+            return await _eventEngine.GetEventsByMissionId(missionId);
         }
     }
 }
