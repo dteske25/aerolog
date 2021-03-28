@@ -7,7 +7,6 @@ export const allSeriesQuery = gql`
       seriesName
       file {
         id
-        contentType
         fileName
       }
       missionCount
@@ -24,7 +23,6 @@ export const seriesQuery = gql`
         id
         file {
           id
-          contentType
           fileName
         }
         missionName

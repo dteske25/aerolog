@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import ErrorBoundary from './ErrorBoundary';
 import ImageCard, { ImageCardSkeleton } from './ImageCard';
 import { ISeries } from '../types/series';
+import routes from '../utilities/routes';
 
 const useStyles = makeStyles((theme) => ({
   headerRow: {
@@ -53,7 +54,7 @@ const SeriesList = (props: ISeriesList) => {
             file={s.file}
             title={s.seriesName}
             actions={
-              <Link className={classes.link} to={`/series/${s.id}`}>
+              <Link className={classes.link} to={routes.getSeriesDetails(s.id)}>
                 <Button size="small" color="primary">
                   View Missions
                 </Button>
