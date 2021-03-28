@@ -43,7 +43,6 @@ namespace Aerolog.Web.Controllers
             {
                 file = new Core.File
                 {
-                    ContentDisposition = requestFile?.ContentDisposition,
                     ContentType = requestFile?.ContentType,
                     FileName = requestFile?.FileName,
                 };

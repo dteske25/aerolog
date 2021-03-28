@@ -54,5 +54,11 @@ namespace Aerolog.Engines
             series.File = await _fileAccessor.GetById(series.FileId);
             return series;
         }
+
+        public async Task<Series> GetSeriesByName(string name)
+        {
+            var series = await _seriesAccessor.Get(s => s.SeriesName == name);
+            return series.FirstOrDefault();
+        }
     }
 }

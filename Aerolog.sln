@@ -17,6 +17,8 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aerolog.GraphQL", "Aerolog.GraphQL\Aerolog.GraphQL.csproj", "{8D8BE496-5D6D-4B62-94F6-DF53E19EC61F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aerolog.Uploader", "Aerolog.Uploader\Aerolog.Uploader.csproj", "{DFA2B3D5-0718-4D16-8678-18F9FDE6BE22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{8D8BE496-5D6D-4B62-94F6-DF53E19EC61F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D8BE496-5D6D-4B62-94F6-DF53E19EC61F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D8BE496-5D6D-4B62-94F6-DF53E19EC61F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFA2B3D5-0718-4D16-8678-18F9FDE6BE22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFA2B3D5-0718-4D16-8678-18F9FDE6BE22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFA2B3D5-0718-4D16-8678-18F9FDE6BE22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFA2B3D5-0718-4D16-8678-18F9FDE6BE22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

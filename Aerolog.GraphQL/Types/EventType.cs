@@ -20,7 +20,6 @@ namespace Aerolog.GraphQL.Types
             Field(e => e.Id);
             Field(e => e.Text);
             Field(e => e.Timestamp);
-            Field(s => s.UploadStatus).Description("The status of the upload and if it's been reviewed.");
             Field<FileType>("file", "Image associated with the series.", resolve: c => fileEngine.GetById(c.Source.FileId));
             Field<MissionType>("mission", "Mission the event occurred on.", resolve: c => missionEngine.GetMission(c.Source.MissionId));
             Field<SeriesType>("series", "Series of missions associated with the event.", resolve: c => seriesEngine.GetSeries(c.Source.SeriesId));

@@ -11,9 +11,6 @@ namespace Aerolog.Core
         [BsonElement(Fields.ContentType)]
         public string ContentType { get; set; }
 
-        [BsonElement(Fields.ContentDisposition)]
-        public string ContentDisposition { get; set; }
-
         [BsonElement(Fields.FileName)]
         public string FileName { get; set; }
 
@@ -27,7 +24,6 @@ namespace Aerolog.Core
         public static class Fields
         {
             public const string ContentType = "ct";
-            public const string ContentDisposition = "cd";
             public const string FileName = "fn";
             public const string FileId = "f_fid";
         }

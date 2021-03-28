@@ -6,7 +6,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Aerolog.Core
 {
-    public class Log : BaseMongoObject, IHasUploadStatus
+    public class Log : BaseMongoObject
     {
         [BsonElement(Fields.Text)]
         public string Text { get; set; }
@@ -25,8 +25,6 @@ namespace Aerolog.Core
         [BsonRepresentation(BsonType.ObjectId)]
         public string SeriesId { get; set; }
 
-        [BsonElement(Fields.UploadStatus)]
-        public UploadStatusTypes UploadStatus { get; set; }
 
         public static class Fields
         {
@@ -35,7 +33,6 @@ namespace Aerolog.Core
             public const string SpeakerName = "l_sn";
             public const string MissionId = "l_mid";
             public const string SeriesId = "l_sid";
-            public const string UploadStatus = "l_us";
         }
     }
 }

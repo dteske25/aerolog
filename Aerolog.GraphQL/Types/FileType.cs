@@ -11,7 +11,6 @@ namespace Aerolog.GraphQL.QueryTypes
 
             Field(f => f.Id);
             Field(f => f.ContentType);
-            Field(f => f.ContentDisposition);
             Field(f => f.FileId);
             Field(f => f.FileName);
         }

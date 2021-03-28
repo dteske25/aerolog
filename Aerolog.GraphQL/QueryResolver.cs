@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Aerolog.Accessors;
 using Aerolog.Core;
 using Aerolog.Engines;
 using Aerolog.GraphQL.Infrastructure;
+using GraphQL;
 using GraphQL.Types;
 
 namespace Aerolog.GraphQL
@@ -29,7 +29,7 @@ namespace Aerolog.GraphQL
             Resolve = GetSeriesFunc
         };
 
-        private async Task<IEnumerable<Series>> GetSeriesFunc(ResolveFieldContext<object> context)
+        private async Task<IEnumerable<Series>> GetSeriesFunc(IResolveFieldContext<object> context)
         {
             var seriesId = context.GetArgument<string>("seriesId");
 
@@ -47,7 +47,7 @@ namespace Aerolog.GraphQL
             Resolve = GetMissionFunc
         };
 
-        private async Task<IEnumerable<Mission>> GetMissionFunc(ResolveFieldContext<object> context)
+        private async Task<IEnumerable<Mission>> GetMissionFunc(IResolveFieldContext<object> context)
         {
             var missionId = context.GetArgument<string>("missionId");
             if (missionId != null)
@@ -69,7 +69,7 @@ namespace Aerolog.GraphQL
             Resolve = GetLogFunc
         };
 
-        private async Task<IEnumerable<Log>> GetLogFunc(ResolveFieldContext<object> context)
+        private async Task<IEnumerable<Log>> GetLogFunc(IResolveFieldContext<object> context)
         {
             var logId = context.GetArgument<string>("logId");
             if (logId != null)
@@ -96,7 +96,7 @@ namespace Aerolog.GraphQL
             Resolve = GetEventFunc
         };
 
-        private async Task<IEnumerable<Event>> GetEventFunc(ResolveFieldContext<object> context)
+        private async Task<IEnumerable<Event>> GetEventFunc(IResolveFieldContext<object> context)
         {
             var eventId = context.GetArgument<string>("eventId");
             if (eventId != null)

@@ -17,7 +17,6 @@ namespace Aerolog.GraphQL.QueryTypes
             Field(s => s.SpeakerName);
             Field(s => s.Text);
             Field(s => s.Timestamp);
-            Field(s => s.UploadStatus).Description("The status of the upload and if it's been reviewed.");
 
             // Custom-mapped properties
             Field<MissionType>("mission", "The mission during which the log was captured", resolve: c => missionEngine.GetMission(c.Source.MissionId));
