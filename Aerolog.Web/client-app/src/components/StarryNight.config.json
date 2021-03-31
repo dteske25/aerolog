@@ -5,9 +5,9 @@
     "events": {
       "onclick": { "enable": false, "mode": "push" },
       "onhover": {
-        "enable": true,
+        "enable": false,
         "mode": "bubble",
-        "parallax": { "enable": true, "force": 10, "smooth": 10 }
+        "parallax": { "enable": false, "force": 10, "smooth": 10 }
       },
       "resize": true
     },

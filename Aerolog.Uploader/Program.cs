@@ -27,18 +27,17 @@ namespace Aerolog.Uploader
                 {
                     services.AddAccessors(GetMongoDBConnectionString(context), context.Configuration["MongoDB:Database"]);
                     services.AddEngines();
-                    services.AddTransient<ISeriesLoader, ApolloLoader>();
-                    services.AddTransient<ISeriesLoader, GeminiLoader>();
+                    services.AddTransient<ILoader, ApolloLoader>();
+                    services.AddTransient<ILoader, GeminiLoader>();
                     services.BuildServiceProvider();
                 });
 
         static async Task SetupAllSeries(IServiceScope scope)
         {
-            var seriesLoaders = scope.ServiceProvider.GetServices<ISeriesLoader>();
-            foreach (var seriesLoader in seriesLoaders)
+            var loaders = scope.ServiceProvider.GetServices<ILoader>();
+            foreach (var loader in loaders)
             {
-                var series = await seriesLoader.GetOrCreateSeries();
-                Console.WriteLine($"Series: {series.SeriesName} - {series.Id}");
+                await loader.Populate();
             }
         }
 

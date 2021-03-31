@@ -53,7 +53,10 @@ namespace Aerolog.Engines
 
         private async Task<Mission> LoadFile(Mission mission)
         {
-            mission.File = await _fileAccessor.GetById(mission.FileId);
+            if (mission.FileId != null)
+            {
+                mission.File = await _fileAccessor.GetById(mission.FileId);
+            }
             return mission;
         }
 
@@ -65,6 +68,12 @@ namespace Aerolog.Engines
         public async Task<IEnumerable<Mission>> GetAll()
         {
             return await _missionAccessor.GetAll();
+        }
+
+        public async Task<Mission> GetMissionByName(string missionName)
+        {
+            var results = await _missionAccessor.Get(m => m.MissionName == missionName);
+            return results.FirstOrDefault();
         }
     }
 }

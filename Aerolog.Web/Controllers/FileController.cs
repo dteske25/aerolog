@@ -21,8 +21,12 @@ namespace Aerolog.Web.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetContent(string id)
         {
-            var file = await _fileEngine.GetById(id);
-            return File(file.FileContent, file.ContentType);
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                var file = await _fileEngine.GetById(id);
+                return File(file.FileContent, file.ContentType);
+            }
+            return null;
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Aerolog.Engines
     public interface IMissionEngine
     {
         Task<Mission> GetMission(string id);
+        Task<Mission> GetMissionByName(string missionName);
         Task<IEnumerable<Mission>> GetMissionsBySeriesId(string seriesId);
         Task<long> GetMissionCountBySeriesId(string seriesId);
         Task<IEnumerable<Mission>> GetAll();

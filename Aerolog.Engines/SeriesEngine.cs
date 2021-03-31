@@ -51,7 +51,10 @@ namespace Aerolog.Engines
 
         private async Task<Series> LoadFile(Series series)
         {
-            series.File = await _fileAccessor.GetById(series.FileId);
+            if (series.FileId != null)
+            {
+                series.File = await _fileAccessor.GetById(series.FileId);
+            }
             return series;
         }
 
