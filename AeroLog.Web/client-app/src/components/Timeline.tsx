@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Mark, Slider, Tooltip, ValueLabelProps } from '@material-ui/core';
 import { IEvent } from '../services/eventService';
-import { format, getTime, toDate } from 'date-fns';
+import { format, getTime } from 'date-fns';
 
 interface ITimelineProps {
   events: IEvent[];
