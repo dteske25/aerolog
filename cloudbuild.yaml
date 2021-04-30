@@ -35,6 +35,7 @@ steps:
       ]
 images:
   - gcr.io/$PROJECT_ID/aerolog-web-$SHORT_SHA
+timeout: 900s
 artifacts:
   objects:
     location: "gs://aerolog-client-app/"
