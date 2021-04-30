@@ -18,7 +18,6 @@ namespace Aerolog.Uploader
             await SetupAllSeries(scope);
 
             Console.WriteLine("Uploading Completed!");
-            Console.ReadLine();
         }
 
         static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -40,5 +40,15 @@ namespace Aerolog.Engines
         {
             return await _logAccessor.Get(l => l.SeriesId == seriesId);
         }
+
+        public async Task<Log> Save(Log log)
+        {
+            return await _logAccessor.Save(log);
+        }
+
+        public async Task DeleteAllLogsByMissionId(string missionId)
+        {
+            await _logAccessor.Delete(l => l.MissionId == missionId);
+        }
     }
 }

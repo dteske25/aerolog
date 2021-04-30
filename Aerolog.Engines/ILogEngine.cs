@@ -11,5 +11,7 @@ namespace Aerolog.Engines
         Task<Log> GetLog(string logId);
         Task<IEnumerable<Log>> GetAll();
         Task<long> GetLogCountByMissionId(string missionId);
+        Task<Log> Save(Log log);
+        Task DeleteAllLogsByMissionId(string missionId);
     }
 }

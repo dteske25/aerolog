@@ -38,7 +38,7 @@ namespace Aerolog.Uploader.SeriesLoader
                 {
                     file = await FileLoader.GetLocalFile(missionImage);
                 }
-                mission = await missionEngine.CreateMission(missionName, seriesId, file);
+                mission = await missionEngine.Create(missionName, seriesId, file);
                 Console.WriteLine($"Mission Created: {mission.MissionName}-{mission.Id}");
             }
             else

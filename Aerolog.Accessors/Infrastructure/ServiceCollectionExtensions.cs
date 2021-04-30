@@ -25,8 +25,14 @@ namespace Microsoft.Extensions.DependencyInjection
         public static void CreateIndexes(this MongoContext context)
         {
             // Add indexes here
-            // context.AddIndex(Builders<Exercise>.IndexKeys.Text(e => e.Name));
-            context.AddIndex(Builders<Log>.IndexKeys.Text(e => e.SpeakerName));
+            context.AddIndex(Builders<Log>.IndexKeys.Text(e => e.Text));
+            context.AddIndex(Builders<Log>.IndexKeys.Ascending(e => e.SeriesId));
+            context.AddIndex(Builders<Log>.IndexKeys.Ascending(e => e.MissionId).Ascending(e => e.Timestamp));
+
+            context.AddIndex(Builders<Mission>.IndexKeys.Text(e => e.MissionName));
+            context.AddIndex(Builders<Mission>.IndexKeys.Ascending(e => e.SeriesId));
+
+            context.AddIndex(Builders<Series>.IndexKeys.Text(e => e.SeriesName));
         }
 
         public static MongoContext AddIndex<T>(this MongoContext context, IndexKeysDefinition<T> keys, CreateIndexOptions options = null)

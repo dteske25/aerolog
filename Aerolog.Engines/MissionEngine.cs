@@ -30,7 +30,7 @@ namespace Aerolog.Engines
             return await LoadFile(mission);
         }
 
-        public async Task<Mission> CreateMission(string missionName, string seriesId, File file = null)
+        public async Task<Mission> Create(string missionName, string seriesId, File file = null)
         {
             File createdFile = null;
             if (file != null)
@@ -74,6 +74,11 @@ namespace Aerolog.Engines
         {
             var results = await _missionAccessor.Get(m => m.MissionName == missionName);
             return results.FirstOrDefault();
+        }
+
+        public async Task<Mission> Save(Mission mission)
+        {
+            return await _missionAccessor.Save(mission);
         }
     }
 }
