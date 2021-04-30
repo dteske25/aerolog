@@ -11,14 +11,14 @@ steps:
       ]
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/aerolog-web-$SHORT_SHA"]
-  - name: node
-    args: ["npm", "install"]
-    dir: "./Aerolog.Web/client-app"
-  - name: node
-    args: ["npm", "run", "build"]
-    env: ["PUBLIC_URL=https://storage.googleapis.com/aerolog-client-app/"]
-    dir: "./Aerolog.Web/client-app"
-    timeout: 500s
+  # - name: node
+  #   args: ["npm", "install"]
+  #   dir: "./Aerolog.Web/client-app"
+  # - name: node
+  #   args: ["npm", "run", "build"]
+  #   env: ["PUBLIC_URL=https://storage.googleapis.com/aerolog-client-app/"]
+  #   dir: "./Aerolog.Web/client-app"
+  #   timeout: 500s
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
     args:
@@ -36,7 +36,7 @@ steps:
 images:
   - gcr.io/$PROJECT_ID/aerolog-web-$SHORT_SHA
 timeout: 900s
-artifacts:
-  objects:
-    location: "gs://aerolog-client-app/"
-    paths: [./Aerolog.Web/client-app/build/*]
+# artifacts:
+#   objects:
+#     location: "gs://aerolog-client-app/"
+#     paths: [./Aerolog.Web/client-app/build/*]

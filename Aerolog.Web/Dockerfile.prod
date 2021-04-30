@@ -16,6 +16,7 @@ COPY ["Aerolog.Accessors/Aerolog.Accessors.csproj", "Aerolog.Accessors/"]
 COPY ["Aerolog.Core/Aerolog.Core.csproj", "Aerolog.Core/"]
 COPY ["Aerolog.Utilities/Aerolog.Utilities.csproj", "Aerolog.Utilities/"]
 COPY ["Aerolog.Engines/Aerolog.Engines.csproj", "Aerolog.Engines/"]
+COPY ["Aerolog.GraphQL/Aerolog.GraphQL.csproj", "Aerolog.GraphQL/"]
 RUN dotnet restore "Aerolog.Web/Aerolog.Web.csproj"
 COPY . .
 WORKDIR "/src/Aerolog.Web"
