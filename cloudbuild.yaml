@@ -18,6 +18,7 @@ steps:
     args: ["npm", "run", "build"]
     env: ["PUBLIC_URL=https://storage.googleapis.com/aerolog-client-app/"]
     dir: "./Aerolog.Web/client-app"
+    timeout: 500s
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: gcloud
     args:
