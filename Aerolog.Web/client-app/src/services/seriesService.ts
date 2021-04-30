@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
-export const allSeriesQuery = gql`
-  query allSeriesQuery {
+export const ALL_SERIES_QUERY = gql`
+  query allSeries {
     series {
       id
       seriesName
@@ -14,8 +14,8 @@ export const allSeriesQuery = gql`
   }
 `;
 
-export const seriesQuery = gql`
-  query seriesQuery($seriesId: String) {
+export const SERIES_BY_ID_QUERY = gql`
+  query seriesById($seriesId: String) {
     series(seriesId: $seriesId) {
       id
       seriesName

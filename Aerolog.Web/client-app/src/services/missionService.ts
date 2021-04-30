@@ -1,12 +1,20 @@
-import { get } from '../apiHelper';
-import type { IMission } from '../types/mission';
+import { gql } from '@apollo/client';
 
-export const getMissionsBySeriesId = async (seriesId: string) => {
-  const response = await get<IMission[]>('/api/Mission', { seriesId });
-  return response;
-};
-
-export const getMission = async (id: string) => {
-  const response = await get<IMission>(`/api/Mission/${id}`);
-  return response;
-};
+export const MISSION_BY_ID_QUERY = gql`
+query missionById($missionId: String) {
+  mission(missionId: $missionId) {
+    id
+    missionName
+    speakers {
+      name
+      label
+    }
+    log {
+      timestamp
+      speakerName
+      text
+      id
+    }
+  }
+}
+`;

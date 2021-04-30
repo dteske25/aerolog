@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { allSeriesQuery } from '../services/seriesService';
+import { ALL_SERIES_QUERY } from '../services/seriesService';
 import { Grid, makeStyles, useTheme, Button } from '@material-ui/core';
 import TitleBar from './TitleBar';
 import { Link } from 'react-router-dom';
@@ -30,7 +30,7 @@ interface ISeriesList {}
 const SeriesList = (props: ISeriesList) => {
   const theme = useTheme();
   const classes = useStyles(theme);
-  const { loading, data, error } = useQuery(allSeriesQuery);
+  const { loading, data, error } = useQuery(ALL_SERIES_QUERY);
 
   if (error) {
     throw error.message;

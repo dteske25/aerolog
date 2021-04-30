@@ -9,7 +9,7 @@ import { Fade, Grid } from '@material-ui/core';
 import { IFile } from '../types/file';
 
 interface IImageCardProps {
-  file?: IFile;
+  file?: IFile | null;
   title: React.ReactNode;
   actions: React.ReactNode;
 }

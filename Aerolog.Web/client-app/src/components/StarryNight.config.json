@@ -16,8 +16,7 @@
         "distance": 100,
         "duration": 2,
         "opacity": 0,
-        "size": 0,
-        "speed": 1
+        "size": 0
       },
       "grab": { "distance": 50, "line_linked": { "opacity": 1 } },
       "push": { "quantity": 10 },

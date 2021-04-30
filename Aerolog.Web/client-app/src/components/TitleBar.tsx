@@ -11,12 +11,14 @@ const useStyles = makeStyles(() => ({
 
 interface ITitleBarProps {
   title: React.ReactNode;
+  includeSearching?: boolean;
   searchText?: string;
   isLoading?: boolean;
 }
 
 const TitleBar = (props: ITitleBarProps) => {
   const classes = useStyles();
+  const shouldShowSearchBar = props.includeSearching ?? true;
   if (props.isLoading) {
     return <TitleBarSkeleton />;
   }
@@ -26,19 +28,21 @@ const TitleBar = (props: ITitleBarProps) => {
         <Grid item md={4} sm={6} xs={12}>
           <Typography variant="h4">{props.title}</Typography>
         </Grid>
-        <Grid item md={4} sm={6} xs={12}>
-          <TextField
-            className={classes.search}
-            label={props.searchText ?? `Search ${props.title}`}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Grid>
+        {shouldShowSearchBar && (
+          <Grid item md={4} sm={6} xs={12}>
+            <TextField
+              className={classes.search}
+              label={props.searchText ?? `Search ${props.title}`}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+        )}
       </Grid>
     </Fade>
   );

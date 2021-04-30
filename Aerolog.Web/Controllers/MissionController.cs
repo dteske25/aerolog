@@ -50,7 +50,7 @@ namespace Aerolog.Web.Controllers
                 }
             }
 
-            var mission = await _missionEngine.CreateMission(missionParams.MissionName, missionParams.SeriesId, file);
+            var mission = await _missionEngine.Create(missionParams.MissionName, missionParams.SeriesId, file);
             return Ok(mission);
         }
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import Particles from 'react-tsparticles';
+import Particles, { RecursivePartial, IOptions } from 'react-tsparticles';
 import 'pathseg';
 import { default as StarryNightAnimationParams } from './StarryNight.config.json';
 
@@ -15,7 +15,7 @@ const StarryNightAnimation = () => (
       width: '100%',
       zIndex: -1,
     }}
-    params={StarryNightAnimationParams}
+    options={StarryNightAnimationParams as RecursivePartial<IOptions>}
   />
 );
 export default StarryNightAnimation;
