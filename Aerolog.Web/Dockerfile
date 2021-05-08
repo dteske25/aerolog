@@ -5,7 +5,10 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+FROM node:14-alpine AS node_base
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+COPY --from=node_base . .
+
 WORKDIR /src
 COPY ["Aerolog.Web.csproj", "Aerolog.Web/"]
 COPY ["../Aerolog.Accessors/Aerolog.Accessors.csproj", "Aerolog.Accessors/"]
