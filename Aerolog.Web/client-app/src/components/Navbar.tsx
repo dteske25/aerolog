@@ -59,7 +59,8 @@ export default function Navbar() {
   return (
     <List>
       {navItems.map(({ key, title, url, Icon }) => {
-        const className = location.pathname === url ? classes.activeLink : classes.link;
+        const className =
+          location.pathname === url ? classes.activeLink : classes.link;
         return (
           <NavLink
             className={classes.link}
@@ -68,7 +69,12 @@ export default function Navbar() {
             to={url}
             key={key}
           >
-            <ListItem className={clsx(location.pathname === url && classes.activeLinkBackground)} button>
+            <ListItem
+              className={clsx(
+                location.pathname === url && classes.activeLinkBackground,
+              )}
+              button
+            >
               {Icon && (
                 <ListItemIcon>
                   <Icon className={className} />

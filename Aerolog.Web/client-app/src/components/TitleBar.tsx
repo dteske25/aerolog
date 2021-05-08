@@ -1,5 +1,12 @@
 import React from 'react';
-import { Typography, makeStyles, TextField, InputAdornment, Grid, Fade } from '@material-ui/core';
+import {
+  Typography,
+  makeStyles,
+  TextField,
+  InputAdornment,
+  Grid,
+  Fade,
+} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { Skeleton } from '@material-ui/lab';
 

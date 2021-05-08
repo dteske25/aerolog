@@ -20,7 +20,13 @@ const ImageCard = (props: IImageCardProps) => {
     <Grid item xs={12} sm={6} md={4}>
       <Fade in>
         <Card>
-          {file && <CardMedia component="img" image={`/api/file/${file.id}`} title={file.fileName} />}
+          {file && (
+            <CardMedia
+              component="img"
+              image={`/api/file/${file.id}`}
+              title={file.fileName}
+            />
+          )}
           <CardContent>
             <Typography>{title}</Typography>
           </CardContent>

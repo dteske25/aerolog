@@ -127,7 +127,11 @@ export default function Layout(props: React.PropsWithChildren<ILayoutProps>) {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === 'ltr' ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
           </IconButton>
         </div>
         <Divider />
@@ -141,7 +145,9 @@ export default function Layout(props: React.PropsWithChildren<ILayoutProps>) {
         <StarryNightAnimation />
         <div className={classes.drawerHeader} />
         <Fade in>
-          <div style={{ width: '85vw', margin: 'auto', height: '85vh' }}>{props.children}</div>
+          <div style={{ width: '85vw', margin: 'auto', height: '85vh' }}>
+            {props.children}
+          </div>
         </Fade>
       </main>
     </div>

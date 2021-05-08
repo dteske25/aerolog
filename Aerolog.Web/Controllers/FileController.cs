@@ -19,6 +19,7 @@ namespace Aerolog.Web.Controllers
         }
 
         [HttpGet("{id}")]
+        [ResponseCache(Duration = 300)]
         public async Task<IActionResult> GetContent(string id)
         {
             if (!string.IsNullOrWhiteSpace(id))

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Aerolog.Uploader": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

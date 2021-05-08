@@ -9,7 +9,10 @@ interface IErrorBoundaryState {
   hasError: false;
 }
 
-export default class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryState> {
+export default class ErrorBoundary extends React.Component<
+  IErrorBoundaryProps,
+  IErrorBoundaryState
+> {
   state: Readonly<IErrorBoundaryState> = {
     hasError: false,
   };

@@ -38,6 +38,9 @@ namespace Aerolog.Web
                 configuration.RootPath = "client-app/build";
             });
 
+
+            services.AddResponseCompression();
+            services.AddResponseCaching();
             //services.Configure<KestrelServerOptions>(options =>
             //{
             //    options.AllowSynchronousIO = true;
@@ -64,6 +67,9 @@ namespace Aerolog.Web
             app.UseSpaStaticFiles();
             app.UseWebSockets();
             app.UseRouting();
+
+            app.UseResponseCompression();
+            app.UseResponseCaching();
 
             // app.UseGraphQL<AerologSchema, AerologGraphQLMiddleware<AerologSchema>>();
             app.UseGraphQL<AerologSchema>();

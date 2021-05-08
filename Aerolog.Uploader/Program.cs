@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Aerolog.Uploader.SeriesLoader;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,7 @@ namespace Aerolog.Uploader
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((context, services) =>
                 {
+                    Console.WriteLine($"Uploading to {context.HostingEnvironment.EnvironmentName}...");
                     services.AddAccessors(GetMongoDBConnectionString(context), context.Configuration["MongoDB:Database"]);
                     services.AddEngines();
                     services.AddTransient<ILoader, ApolloLoader>();

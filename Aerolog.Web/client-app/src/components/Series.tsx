@@ -9,7 +9,10 @@ import { Grid, Button, useTheme, makeStyles } from '@material-ui/core';
 import ImageCard, { ImageCardSkeleton } from './ImageCard';
 import routes from '../utilities/routes';
 import { Link } from 'react-router-dom';
-import { seriesByIdVariables, seriesById } from '../services/__generated__/seriesById';
+import {
+  seriesByIdVariables,
+  seriesById,
+} from '../services/__generated__/seriesById';
 
 const useStyles = makeStyles((theme) => ({
   headerRow: {
@@ -35,9 +38,12 @@ interface ISeriesProps {}
 
 const Series = (props: ISeriesProps) => {
   const match = useRouteMatch<ISeriesUrlProps>();
-  const { loading, data, error } = useQuery<seriesById, seriesByIdVariables>(SERIES_BY_ID_QUERY, {
-    variables: { seriesId: match.params.id },
-  });
+  const { loading, data, error } = useQuery<seriesById, seriesByIdVariables>(
+    SERIES_BY_ID_QUERY,
+    {
+      variables: { seriesId: match.params.id },
+    },
+  );
 
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -53,7 +59,11 @@ const Series = (props: ISeriesProps) => {
 
   return (
     <ErrorBoundary message="Error loading series">
-      <TitleBar title={series?.seriesName} searchText={`Search ${series?.seriesName} Missions`} isLoading={loading} />
+      <TitleBar
+        title={series?.seriesName}
+        searchText={`Search ${series?.seriesName} Missions`}
+        isLoading={loading}
+      />
 
       <Grid container spacing={3}>
         {loading && (
@@ -74,7 +84,10 @@ const Series = (props: ISeriesProps) => {
               file={m.file}
               title={m.missionName}
               actions={
-                <Link className={classes.link} to={routes.getMissionDetails(m.id)}>
+                <Link
+                  className={classes.link}
+                  to={routes.getMissionDetails(m.id)}
+                >
                   <Button size="small" color="primary">
                     View Missions
                   </Button>
