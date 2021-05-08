@@ -1,23 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="graphiql" Version="2.0.0" />
-    <PackageReference Include="GraphQL" Version="4.1.0" />
-    <PackageReference Include="GraphQL.Server.All" Version="5.0.1" />
+    <PackageReference Include="GraphQL" Version="4.5.0" />
+    <PackageReference Include="GraphQL.Server.All" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Aerolog.Core\Aerolog.Core.csproj" />
     <ProjectReference Include="..\Aerolog.Engines\Aerolog.Engines.csproj" />
     <ProjectReference Include="..\Aerolog.Utilities\Aerolog.Utilities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Queries\" />
   </ItemGroup>
 
 </Project>
