@@ -11,50 +11,29 @@ namespace Aerolog.Engines
     public class SeriesEngine : ISeriesEngine
     {
         private readonly ISeriesAccessor _seriesAccessor;
-        private readonly IFileAccessor _fileAccessor;
-        public SeriesEngine(ISeriesAccessor seriesAccessor, IFileAccessor fileAccessor)
+        public SeriesEngine(ISeriesAccessor seriesAccessor)
         {
             _seriesAccessor = seriesAccessor;
-            _fileAccessor = fileAccessor;
         }
-        public async Task<Series> CreateSeries(string seriesName, File file = null)
+
+        public async Task<Series> CreateSeries(string seriesName, string seriesImage)
         {
-            File createdFile = null;
-            if (file != null)
-            {
-                createdFile = await _fileAccessor.Insert(file);
-            }
             return await _seriesAccessor.Insert(new Series
             {
                 SeriesName = seriesName,
-                File = createdFile,
-                FileId = createdFile?.Id
+                Image = seriesImage
             });
         }
 
         public async Task<IEnumerable<Series>> GetAll()
         {
             var series = await _seriesAccessor.GetAll();
-            return await LoadFiles(series);
+            return series;
         }
 
         public async Task<Series> GetSeries(string id)
         {
             var series = await _seriesAccessor.GetById(id);
-            return await LoadFile(series);
-        }
-
-        private async Task<IEnumerable<Series>> LoadFiles(IEnumerable<Series> series)
-        {
-            return await Task.WhenAll(series.Select(s => LoadFile(s)));
-        }
-
-        private async Task<Series> LoadFile(Series series)
-        {
-            if (series.FileId != null)
-            {
-                series.File = await _fileAccessor.GetById(series.FileId);
-            }
             return series;
         }
 

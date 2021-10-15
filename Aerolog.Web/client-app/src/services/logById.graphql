@@ -1,0 +1,7 @@
+query logById($logId: String) {
+  log(logId: $logId) {
+    speakerName
+    text
+    timestamp
+  }
+}

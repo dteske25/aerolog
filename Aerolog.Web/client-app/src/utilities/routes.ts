@@ -5,9 +5,9 @@ const routes = {
 
   seriesList: '/series',
   seriesDetails: '/series/:id',
-  getSeriesDetails: (id: string) => `/series/${id}`,
+  getSeriesDetails: (id?: string) => `/series/${id}`,
 
   missionDetails: '/mission/:id',
-  getMissionDetails: (id: string) => `/mission/${id}`,
+  getMissionDetails: (id?: string) => `/mission/${id}`,
 };
 export default routes;

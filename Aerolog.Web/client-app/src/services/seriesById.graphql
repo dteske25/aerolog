@@ -1,0 +1,12 @@
+query seriesById($seriesId: String) {
+  series(seriesId: $seriesId) {
+    id
+    seriesName
+    missions {
+      id
+      image
+      missionName
+      logCount
+    }
+  }
+}

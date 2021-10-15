@@ -33,28 +33,5 @@ namespace Aerolog.Web.Controllers
             var series = await _seriesEngine.GetSeries(id);
             return Ok(series);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateSeries([FromForm]CreateSeriesParams seriesParams)
-        {
-            var requestFile = seriesParams.Files.FirstOrDefault();
-            Core.File file = null;
-            if (requestFile != null)
-            {
-                file = new Core.File
-                {
-                    ContentType = requestFile?.ContentType,
-                    FileName = requestFile?.FileName,
-                };
-                using (var stream = new MemoryStream())
-                {
-                    await requestFile.OpenReadStream().CopyToAsync(stream);
-                    file.FileContent = stream.ToArray();
-                }
-            }
-            
-            var series = await _seriesEngine.CreateSeries(seriesParams.SeriesName, file);
-            return Ok(series);
-        }
     }
 }

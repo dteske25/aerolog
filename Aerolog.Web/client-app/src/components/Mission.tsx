@@ -1,28 +1,21 @@
 import React, { useState } from 'react';
 import { useRouteMatch } from 'react-router';
-import { MISSION_BY_ID_QUERY } from '../services/missionService';
 import { useQuery } from '@apollo/client';
-import TitleBar from './TitleBar';
 import ErrorBoundary from './ErrorBoundary';
-import { IMission } from '../types/mission';
-import {
-  Grid,
-  Button,
-  useTheme,
-  makeStyles,
-  CircularProgress,
-} from '@material-ui/core';
+import { Grid, useTheme, makeStyles } from '@material-ui/core';
 import format from 'date-fns/format';
-import { DataGrid, GridColDef } from '@material-ui/data-grid';
 import {
-  missionById,
-  missionByIdVariables,
-  missionById_mission,
-  missionById_mission_log,
-  missionById_mission_speakers,
-} from '../services/__generated__/missionById';
+  DataGrid,
+  GridColDef,
+  GridSelectionModel,
+} from '@material-ui/data-grid';
 import Log from './Log';
 import { Skeleton } from '@material-ui/lab';
+import {
+  MissionByIdDocument,
+  Log as LogType,
+  Speaker as SpeakerType,
+} from '../types';
 
 const useStyles = makeStyles((theme) => ({
   headerRow: {
@@ -61,17 +54,12 @@ const columns: GridColDef[] = [
   { field: 'text', headerName: 'Text', flex: 3 },
 ];
 
-interface IMissionProps {}
-
-const Mission = (props: IMissionProps) => {
+const Mission = () => {
   const match = useRouteMatch<IMissionUrlProps>();
-  const [selectionModel, setSelectionModel] = useState<(string | number)[]>();
-  const { loading, data, error } = useQuery<missionById, missionByIdVariables>(
-    MISSION_BY_ID_QUERY,
-    {
-      variables: { missionId: match.params.id },
-    },
-  );
+  const [selectionModel, setSelectionModel] = useState<GridSelectionModel>();
+  const { loading, data, error } = useQuery(MissionByIdDocument, {
+    variables: { missionId: match.params.id },
+  });
 
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -79,25 +67,21 @@ const Mission = (props: IMissionProps) => {
     throw error.message;
   }
 
-  let mission: missionById_mission | null = null;
-  if (data?.mission) {
-    mission = data.mission[0];
-  }
+  const currentMission = data?.mission?.[0];
 
   const logData =
-    mission?.log?.filter(
-      (log): log is missionById_mission_log => log !== null,
+    currentMission?.log?.filter(
+      (log): log is LogType => log !== null && log !== undefined,
     ) ?? [];
 
   const speakers =
-    mission?.speakers?.filter(
-      (s): s is missionById_mission_speakers => s !== null,
+    currentMission?.speakers?.filter(
+      (s): s is SpeakerType => s !== null && s !== undefined,
     ) ?? [];
-
   return (
     <ErrorBoundary message="Error loading mission">
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={8}>
           <div style={{ height: '75vh', width: '100%' }}>
             {loading && <Skeleton variant="rect" height="100%" />}
             {!loading && (
@@ -106,16 +90,15 @@ const Mission = (props: IMissionProps) => {
                 columns={columns}
                 selectionModel={selectionModel}
                 onSelectionModelChange={(newSelection) => {
-                  console.log(newSelection);
-                  setSelectionModel(newSelection.selectionModel);
+                  setSelectionModel(newSelection);
                 }}
               />
             )}
           </div>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           {selectionModel &&
-            mission?.speakers &&
+            currentMission?.speakers &&
             selectionModel.map((s, i) => (
               <Log key={i} logId={s.toString()} speakers={speakers} />
             ))}

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30503.244
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31606.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aerolog.Web", "Aerolog.Web\Aerolog.Web.csproj", "{9754F94E-FBCD-42BE-9F82-674230BE20FC}"
 EndProject
@@ -17,7 +17,9 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aerolog.GraphQL", "Aerolog.GraphQL\Aerolog.GraphQL.csproj", "{8D8BE496-5D6D-4B62-94F6-DF53E19EC61F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aerolog.Uploader", "Aerolog.Uploader\Aerolog.Uploader.csproj", "{DFA2B3D5-0718-4D16-8678-18F9FDE6BE22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aerolog.Uploader", "Aerolog.Uploader\Aerolog.Uploader.csproj", "{DFA2B3D5-0718-4D16-8678-18F9FDE6BE22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aerolog.DocumentParser", "Aerolog.DocumentParser\Aerolog.DocumentParser.csproj", "{E90546F9-E281-4091-9732-B3891C6AA5DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{DFA2B3D5-0718-4D16-8678-18F9FDE6BE22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFA2B3D5-0718-4D16-8678-18F9FDE6BE22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFA2B3D5-0718-4D16-8678-18F9FDE6BE22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E90546F9-E281-4091-9732-B3891C6AA5DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E90546F9-E281-4091-9732-B3891C6AA5DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E90546F9-E281-4091-9732-B3891C6AA5DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E90546F9-E281-4091-9732-B3891C6AA5DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

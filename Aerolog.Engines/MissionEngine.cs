@@ -11,53 +11,31 @@ namespace Aerolog.Engines
     {
 
         private readonly IMissionAccessor _missionAccessor;
-        private readonly IFileAccessor _fileAccessor;
-        public MissionEngine(IMissionAccessor seriesAccessor, IFileAccessor fileAccessor)
+        public MissionEngine(IMissionAccessor seriesAccessor)
         {
             _missionAccessor = seriesAccessor;
-            _fileAccessor = fileAccessor;
         }
 
         public async Task<IEnumerable<Mission>> GetMissionsBySeriesId(string seriesId)
         {
             var missions = await _missionAccessor.Get(m => m.SeriesId == seriesId);
-            return await LoadFiles(missions);
+            return missions;
         }
 
         public async Task<Mission> GetMission(string id)
         {
             var mission = await _missionAccessor.GetById(id);
-            return await LoadFile(mission);
+            return mission;
         }
 
-        public async Task<Mission> Create(string missionName, string seriesId, File file = null)
+        public async Task<Mission> Create(string missionName, string seriesId, string imagePath)
         {
-            File createdFile = null;
-            if (file != null)
-            {
-                createdFile = await _fileAccessor.Insert(file);
-            }
             return await _missionAccessor.Insert(new Mission
             {
                 MissionName = missionName,
                 SeriesId = seriesId,
-                File = createdFile,
-                FileId = createdFile?.Id
+                Image = imagePath
             });
-        }
-
-        private async Task<IEnumerable<Mission>> LoadFiles(IEnumerable<Mission> missions)
-        {
-            return await Task.WhenAll(missions.Select(s => LoadFile(s)));
-        }
-
-        private async Task<Mission> LoadFile(Mission mission)
-        {
-            if (mission.FileId != null)
-            {
-                mission.File = await _fileAccessor.GetById(mission.FileId);
-            }
-            return mission;
         }
 
         public async Task<long> GetMissionCountBySeriesId(string seriesId)

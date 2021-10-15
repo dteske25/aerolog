@@ -6,26 +6,21 @@ import CardMedia from '@material-ui/core/CardMedia/CardMedia';
 import Typography from '@material-ui/core/Typography/Typography';
 import { Skeleton } from '@material-ui/lab';
 import { Fade, Grid } from '@material-ui/core';
-import { IFile } from '../types/file';
 
 interface IImageCardProps {
-  file?: IFile | null;
-  title: React.ReactNode;
+  imageUrl?: string;
+  title?: string;
   actions: React.ReactNode;
 }
 
 const ImageCard = (props: IImageCardProps) => {
-  const { file, title, actions } = props;
+  const { imageUrl, title, actions } = props;
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Fade in>
         <Card>
-          {file && (
-            <CardMedia
-              component="img"
-              image={`/api/file/${file.id}`}
-              title={file.fileName}
-            />
+          {imageUrl && (
+            <CardMedia component="img" image={imageUrl} title={title} />
           )}
           <CardContent>
             <Typography>{title}</Typography>

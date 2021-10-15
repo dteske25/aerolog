@@ -8,7 +8,7 @@ namespace Aerolog.Engines
     {
         Task<Series> GetSeries(string id);
         Task<Series> GetSeriesByName(string name);
-        Task<Series> CreateSeries(string seriesName, File file = null);
+        Task<Series> CreateSeries(string seriesName, string seriesImage);
         Task<IEnumerable<Series>> GetAll();
     }
 }

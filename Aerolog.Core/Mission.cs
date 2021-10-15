@@ -13,25 +13,19 @@ namespace Aerolog.Core
         [BsonRepresentation(BsonType.ObjectId)] 
         public string SeriesId { get; set; }
 
-        [BsonElement(Fields.FileId)]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string FileId { get; set; }
+        [BsonElement(Fields.ImageUrl)]
+        public string Image { get; set; }
 
         [BsonElement(Fields.Speakers)]
         public List<Speaker> Speakers { get; set; }
-
-        [BsonIgnore]
-        public File File { get; set; }
 
         public static class Fields
         {
             public const string MissionName = "mn";
             public const string SeriesId = "m_sid";
-            public const string FileId = "m_fid";
+            public const string ImageUrl = "m_i";
             public const string Speakers = "m_s";
         }
-
-       
     }
 
     public class Speaker

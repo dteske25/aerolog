@@ -22,12 +22,9 @@ namespace Aerolog.Core
         [BsonRepresentation(BsonType.ObjectId)]
         public string SeriesId { get; set; }
 
-        [BsonElement(Fields.FileId)]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string FileId { get; set; }
+        [BsonElement(Fields.Image)]
+        public string Image { get; set; }
 
-        [BsonIgnore]
-        public File File { get; set; }
 
         public static class Fields
         {
@@ -35,6 +32,7 @@ namespace Aerolog.Core
             public const string Timestamp = "e_d";
             public const string MissionId = "e_mid";
             public const string SeriesId = "e_sid";
+            public const string Image = "e_i";
             public const string FileId = "e_fid";
         }
     }

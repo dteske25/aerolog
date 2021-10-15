@@ -25,38 +25,38 @@ namespace Aerolog.Uploader.SeriesLoader
         public async Task Populate()
         {
             var basePath = @"R:\Code\aerolog\Data\Apollo";
-            var series = await BaseLoaderHelpers.GetOrCreateSeries(_seriesEngine, "Apollo", Path.Combine(basePath, "series.jpg"));
+            var series = await BaseLoaderHelpers.GetOrCreateSeries(_seriesEngine, "Apollo", "https://storage.googleapis.com/aerolog-data/apollo/series.jpg");
             var missionDataList = new List<MissionData>
             {
                 new MissionData
                 {
                     Title = "Apollo 1",
-                    ImagePath = "apollo1.jpg"
+                    ImagePath = "https://storage.googleapis.com/aerolog-data/apollo/apollo1/apollo1.jpg"
                 },
                 new MissionData
                 {
                     Title = "Apollo 7",
-                    ImagePath = "apollo7.jpeg"
+                    ImagePath = "https://storage.googleapis.com/aerolog-data/apollo/apollo7/apollo7.jpg"
                 },
                 new MissionData
                 {
                     Title = "Apollo 8",
-                    ImagePath = "apollo8.jpg"
+                    ImagePath = "https://storage.googleapis.com/aerolog-data/apollo/apollo8/apollo8.jpg"
                 },
                 new MissionData
                 {
                     Title = "Apollo 9",
-                    ImagePath = "apollo9.jpg"
+                    ImagePath = "https://storage.googleapis.com/aerolog-data/apollo/apollo9/apollo9.jpg"
                 },
                 new MissionData
                 {
                     Title = "Apollo 10",
-                    ImagePath = "apollo10.jpg"
+                    ImagePath = "https://storage.googleapis.com/aerolog-data/apollo/apollo10/apollo10.jpg"
                 },
                 new MissionData
                 {
                     Title = "Apollo 11",
-                    ImagePath = "apollo11.jpg",
+                    ImagePath = "https://storage.googleapis.com/aerolog-data/apollo/apollo11/apollo11.jpg",
                     DataPath = "apollo11.txt",
                     MissionStart = new DateTime(1969, 7, 16, 13, 32, 00, DateTimeKind.Utc),
                     Speakers = new Dictionary<string, string>()
@@ -82,39 +82,57 @@ namespace Aerolog.Uploader.SeriesLoader
                 new MissionData
                 {
                     Title = "Apollo 12",
-                    ImagePath = "apollo12.jpg"
+                    ImagePath = "https://storage.googleapis.com/aerolog-data/apollo/apollo12/apollo12.jpg"
                 },
                 new MissionData
                 {
                     Title = "Apollo 13",
-                    ImagePath = "apollo13.jpg"
+                    ImagePath = "https://storage.googleapis.com/aerolog-data/apollo/apollo13/apollo13.jpg",
+                    // DataPath = "apollo13.txt",
+                    MissionStart = new DateTime(1970, 4, 11, 19, 13, 00, DateTimeKind.Utc),
+                    Speakers = new Dictionary<string, string>()
+                    {
+                        { "CDR", "James A. Lovell, Jr." },
+                        { "CMP", "John L. Swigert, Jr."},
+                        { "LMP", "Fred W. Haise, Jr." },
+                        {"SC","Unidentifiable crewmember"},
+                        {"MS","Multiple (simultaneous) speakers"},
+                        {"CC","Capsule Communicator (CAP COMM)"},
+                        {"LCC","Launch Control Center"},
+                        {"F","Flight Director"},
+                        {"S", "Surgeon" },
+                        {"AB","Air Boss"},
+                        {"CT","Communications Technician (COMM TECH)"},
+                        {"IWO", "USS Iwo Jima" },
+                        {"P-*", "Photographic helicopters" },
+                        {"R-*", "Recovery helicopters" }
+                    }
                 },
                 new MissionData
                 {
                     Title = "Apollo 14",
-                    ImagePath = "apollo14.jpg"
+                    ImagePath = "https://storage.googleapis.com/aerolog-data/apollo/apollo14/apollo14.jpg"
                 },
                 new MissionData
                 {
                     Title = "Apollo 15",
-                    ImagePath = "apollo15.jpg"
+                    ImagePath = "https://storage.googleapis.com/aerolog-data/apollo/apollo15/apollo15.jpg"
                 },
                 new MissionData
                 {
                     Title = "Apollo 16",
-                    ImagePath = "apollo16.jpg"
+                    ImagePath = "https://storage.googleapis.com/aerolog-data/apollo/apollo16/apollo16.jpg"
                 },
                 new MissionData
                 {
                     Title = "Apollo 17",
-                    ImagePath = "apollo17.jpg"
+                    ImagePath = "https://storage.googleapis.com/aerolog-data/apollo/apollo17/apollo17.jpg"
                 },
             };
 
             foreach (var missionData in missionDataList)
             {
-                var fullImagePath = Path.Combine(basePath, missionData.ImagePath);
-                var mission = await BaseLoaderHelpers.GetOrCreateMission(_missionEngine, missionData.Title, fullImagePath, series.Id);
+                var mission = await BaseLoaderHelpers.GetOrCreateMission(_missionEngine, missionData.Title, missionData.ImagePath, series.Id);
 
                 if (!string.IsNullOrWhiteSpace(missionData.DataPath))
                 {
@@ -127,14 +145,17 @@ namespace Aerolog.Uploader.SeriesLoader
                     var logRegex = GetLogRegex(missionData);
                     while (!Regex.IsMatch(lines[index], logRegex))
                     {
+                        WriteLogProgress(index, lines.Length);
                         index++;
                     }
 
                     while (index < lines.Length)
                     {
                         var line = lines[index];
+                        WriteLogProgress(index, lines.Length);
                         if (string.IsNullOrWhiteSpace(line))
                         {
+
                             index++;
                             continue;
                         }
@@ -198,7 +219,7 @@ namespace Aerolog.Uploader.SeriesLoader
         private bool IsValidLine(string line)
         {
             return !string.IsNullOrWhiteSpace(line) &&
-                !line.Contains("(GOSS NET 1)") &&
+                !Regex.IsMatch(line, "\\(GOSS NET \\d\\)") &&
                 !line.Contains("END OF TAPE") &&
                 !line.Contains("REST PERIOD - NO COMMUNICATIONS") &&
                 !line.Contains("BEGIN LUNAR REV") &&
@@ -210,8 +231,16 @@ namespace Aerolog.Uploader.SeriesLoader
         private string GetLogRegex(MissionData data)
         {
             var speakerNames = string.Join("|", data.Speakers.Keys);
-            var logRegex = $"^(?<stamp>.. .. .. ..) (?<speaker>{speakerNames})";
+            var dhmsFormat = "(.. .. .. ..)";
+            var hmsFormat = "(...:..:..)";
+            var logRegex = $"^(?<stamp>{dhmsFormat}|{hmsFormat}) (?<speaker>{speakerNames})";
             return logRegex;
+        }
+
+        private void WriteLogProgress(int current, int total)
+        {
+            var percent = Math.Round(current / (decimal)total, 4) * 100;
+            Console.Write($"\rProcessing logs: {percent}% \t");
         }
     }
 }

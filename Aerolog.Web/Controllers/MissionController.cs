@@ -30,28 +30,5 @@ namespace Aerolog.Web.Controllers
             var mission = await _missionEngine.GetMission(id);
             return Ok(mission);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateMission([FromForm] CreateMissionParams missionParams)
-        {
-            var requestFile = missionParams.Files.FirstOrDefault();
-            Core.File file = null;
-            if (requestFile != null)
-            {
-                file = new Core.File
-                {
-                    ContentType = requestFile?.ContentType,
-                    FileName = requestFile?.FileName,
-                };
-                using (var stream = new MemoryStream())
-                {
-                    await requestFile.OpenReadStream().CopyToAsync(stream);
-                    file.FileContent = stream.ToArray();
-                }
-            }
-
-            var mission = await _missionEngine.Create(missionParams.MissionName, missionParams.SeriesId, file);
-            return Ok(mission);
-        }
     }
 }

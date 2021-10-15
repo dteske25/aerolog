@@ -1,0 +1,8 @@
+query allSeries {
+  series {
+    id
+    seriesName
+    image
+    missionCount
+  }
+}

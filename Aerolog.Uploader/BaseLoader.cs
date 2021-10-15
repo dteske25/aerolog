@@ -13,12 +13,7 @@ namespace Aerolog.Uploader.SeriesLoader
             var series = await _seriesEngine.GetSeriesByName(seriesName);
             if (series == null)
             {
-                Core.File file = null;
-                if (!string.IsNullOrWhiteSpace(seriesImage))
-                {
-                    file = await FileLoader.GetLocalFile(seriesImage);
-                }
-                series = await _seriesEngine.CreateSeries(seriesName, file);
+                series = await _seriesEngine.CreateSeries(seriesName, seriesImage);
                 Console.WriteLine($"Series Created: {series.SeriesName}-{series.Id}");
             }
             else
@@ -33,12 +28,7 @@ namespace Aerolog.Uploader.SeriesLoader
             var mission = await missionEngine.GetMissionByName(missionName);
             if (mission == null)
             {
-                Core.File file = null;
-                if (!string.IsNullOrWhiteSpace(missionImage))
-                {
-                    file = await FileLoader.GetLocalFile(missionImage);
-                }
-                mission = await missionEngine.Create(missionName, seriesId, file);
+                mission = await missionEngine.Create(missionName, seriesId, missionImage);
                 Console.WriteLine($"Mission Created: {mission.MissionName}-{mission.Id}");
             }
             else

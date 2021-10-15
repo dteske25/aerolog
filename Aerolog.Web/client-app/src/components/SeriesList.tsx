@@ -1,13 +1,12 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { ALL_SERIES_QUERY } from '../services/seriesService';
 import { Grid, makeStyles, useTheme, Button } from '@material-ui/core';
 import TitleBar from './TitleBar';
 import { Link } from 'react-router-dom';
 import ErrorBoundary from './ErrorBoundary';
 import ImageCard, { ImageCardSkeleton } from './ImageCard';
-import { ISeries } from '../types/series';
 import routes from '../utilities/routes';
+import { AllSeriesDocument, Series as SeriesType } from '../types';
 
 const useStyles = makeStyles((theme) => ({
   headerRow: {
@@ -25,16 +24,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface ISeriesList {}
-
-const SeriesList = (props: ISeriesList) => {
+const SeriesList = () => {
   const theme = useTheme();
   const classes = useStyles(theme);
-  const { loading, data, error } = useQuery(ALL_SERIES_QUERY);
+  const { loading, data, error } = useQuery(AllSeriesDocument);
 
   if (error) {
     throw error.message;
   }
+
+  const series =
+    data?.series?.filter(
+      (s): s is SeriesType => s !== null && s !== undefined,
+    ) ?? [];
 
   return (
     <ErrorBoundary message="Failed to load Series">
@@ -48,20 +50,25 @@ const SeriesList = (props: ISeriesList) => {
             <ImageCardSkeleton />
           </>
         )}
-        {data?.series?.map((s: ISeries) => (
-          <ImageCard
-            key={s.id}
-            file={s.file}
-            title={s.seriesName}
-            actions={
-              <Link className={classes.link} to={routes.getSeriesDetails(s.id)}>
-                <Button size="small" color="primary">
-                  View Missions
-                </Button>
-              </Link>
-            }
-          />
-        ))}
+        {series.map((s) => {
+          return (
+            <ImageCard
+              key={s.id}
+              imageUrl={s.image}
+              title={s.seriesName}
+              actions={
+                <Link
+                  className={classes.link}
+                  to={routes.getSeriesDetails(s.id)}
+                >
+                  <Button size="small" color="primary">
+                    View Missions
+                  </Button>
+                </Link>
+              }
+            />
+          );
+        })}
       </Grid>
     </ErrorBoundary>
   );

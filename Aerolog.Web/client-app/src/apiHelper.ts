@@ -1,14 +1,27 @@
-import axios from 'axios';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { TypedTypePolicies } from './types';
 
-export const get = async <T>(url: string, params?: any) => {
-  const response = await axios.get<T>(url, {
-    params,
-  });
-  return response.data;
+const typePolicies: TypedTypePolicies = {
+  Event: {
+    keyFields: ['id'],
+  },
+  Log: {
+    keyFields: ['id'],
+  },
+  Mission: {
+    keyFields: ['id'],
+  },
+  Series: {
+    keyFields: ['id'],
+  },
+  Speaker: {
+    keyFields: ['label', 'name'],
+  },
 };
 
 export const client = new ApolloClient({
   uri: '/graphql',
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies,
+  }),
 });

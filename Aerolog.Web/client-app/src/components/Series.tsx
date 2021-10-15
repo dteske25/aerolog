@@ -1,18 +1,13 @@
 import React from 'react';
 import { useRouteMatch } from 'react-router';
-import { SERIES_BY_ID_QUERY } from '../services/seriesService';
 import { useQuery } from '@apollo/client';
 import TitleBar from './TitleBar';
 import ErrorBoundary from './ErrorBoundary';
-import { IMission } from '../types/mission';
 import { Grid, Button, useTheme, makeStyles } from '@material-ui/core';
 import ImageCard, { ImageCardSkeleton } from './ImageCard';
 import routes from '../utilities/routes';
 import { Link } from 'react-router-dom';
-import {
-  seriesByIdVariables,
-  seriesById,
-} from '../services/__generated__/seriesById';
+import { SeriesByIdDocument, Mission as MissionType } from '../types';
 
 const useStyles = makeStyles((theme) => ({
   headerRow: {
@@ -34,16 +29,11 @@ interface ISeriesUrlProps {
   id: string;
 }
 
-interface ISeriesProps {}
-
-const Series = (props: ISeriesProps) => {
+const Series = () => {
   const match = useRouteMatch<ISeriesUrlProps>();
-  const { loading, data, error } = useQuery<seriesById, seriesByIdVariables>(
-    SERIES_BY_ID_QUERY,
-    {
-      variables: { seriesId: match.params.id },
-    },
-  );
+  const { loading, data, error } = useQuery(SeriesByIdDocument, {
+    variables: { seriesId: match.params.id },
+  });
 
   const theme = useTheme();
   const classes = useStyles(theme);
@@ -52,10 +42,11 @@ const Series = (props: ISeriesProps) => {
     throw error.message;
   }
 
-  let series = null;
-  if (data?.series) {
-    series = data.series[0];
-  }
+  const series = data?.series?.[0];
+  const missions =
+    series?.missions?.filter(
+      (m): m is MissionType => m !== null && m !== undefined,
+    ) ?? [];
 
   return (
     <ErrorBoundary message="Error loading series">
@@ -73,15 +64,11 @@ const Series = (props: ISeriesProps) => {
             <ImageCardSkeleton />
           </>
         )}
-        {series?.missions?.map((m) => {
-          console.log(m);
-          if (!m) {
-            return null;
-          }
+        {missions.map((m) => {
           return (
             <ImageCard
               key={m.id}
-              file={m.file}
+              imageUrl={m.image}
               title={m.missionName}
               actions={
                 <Link

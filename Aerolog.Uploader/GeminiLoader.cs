@@ -17,7 +17,7 @@ namespace Aerolog.Uploader.SeriesLoader
 
         public async Task Populate()
         {
-            var series = await BaseLoaderHelpers.GetOrCreateSeries(_seriesEngine, "Gemini", @"R:\Code\aerolog\Data\Gemini\series.jpg");
+            var series = await BaseLoaderHelpers.GetOrCreateSeries(_seriesEngine, "Gemini", "https://storage.googleapis.com/aerolog-data/gemini/series.jpg");
             var missions = new List<(string, string)>()
             {
                 ("Gemini 1", ""),

@@ -1,6 +1,4 @@
 import React from 'react';
-import { LOG_BY_ID_QUERY } from '../services/logService';
-import { logById, logByIdVariables } from '../services/__generated__/logById';
 import { useQuery } from '@apollo/client';
 import {
   Avatar,
@@ -12,6 +10,7 @@ import {
 } from '@material-ui/core';
 import format from 'date-fns/format';
 import { parseISO } from 'date-fns';
+import { LogByIdDocument } from '../types';
 
 interface ILogProps {
   logId: string;
@@ -19,10 +18,9 @@ interface ILogProps {
 }
 
 const Log = (props: ILogProps) => {
-  const { loading, data, error } = useQuery<logById, logByIdVariables>(
-    LOG_BY_ID_QUERY,
-    { variables: { logId: props.logId } },
-  );
+  const { loading, data } = useQuery(LogByIdDocument, {
+    variables: { logId: props.logId },
+  });
 
   if (loading) {
     return <CircularProgress />;
