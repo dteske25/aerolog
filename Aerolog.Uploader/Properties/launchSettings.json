@@ -3,7 +3,7 @@
     "Aerolog.Uploader": {
       "commandName": "Project",
       "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Production"
+        "DOTNET_ENVIRONMENT": "Development"
       }
     }
   }

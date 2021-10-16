@@ -2,13 +2,9 @@ import React, { useState } from 'react';
 import { useRouteMatch } from 'react-router';
 import { useQuery } from '@apollo/client';
 import ErrorBoundary from './ErrorBoundary';
-import { Grid, useTheme, makeStyles } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import format from 'date-fns/format';
-import {
-  DataGrid,
-  GridColDef,
-  GridSelectionModel,
-} from '@material-ui/data-grid';
+import { DataGrid, GridColDef } from '@material-ui/data-grid';
 import Log from './Log';
 import { Skeleton } from '@material-ui/lab';
 import {
@@ -16,22 +12,6 @@ import {
   Log as LogType,
   Speaker as SpeakerType,
 } from '../types';
-
-const useStyles = makeStyles((theme) => ({
-  headerRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  search: {
-    flex: '2 0 auto',
-  },
-  title: {
-    flex: '1 0 auto',
-  },
-  link: {
-    textDecoration: 'none',
-  },
-}));
 
 interface IMissionUrlProps {
   id: string;
@@ -56,13 +36,11 @@ const columns: GridColDef[] = [
 
 const Mission = () => {
   const match = useRouteMatch<IMissionUrlProps>();
-  const [selectionModel, setSelectionModel] = useState<GridSelectionModel>();
+  const [selectionModel, setSelectionModel] = useState<(string | number)[]>();
   const { loading, data, error } = useQuery(MissionByIdDocument, {
     variables: { missionId: match.params.id },
   });
 
-  const theme = useTheme();
-  const classes = useStyles(theme);
   if (error) {
     throw error.message;
   }
@@ -89,18 +67,17 @@ const Mission = () => {
                 rows={logData}
                 columns={columns}
                 selectionModel={selectionModel}
-                onSelectionModelChange={(newSelection) => {
-                  setSelectionModel(newSelection);
-                }}
+                onSelectionModelChange={(newSelection) =>
+                  setSelectionModel(newSelection)
+                }
               />
             )}
           </div>
         </Grid>
         <Grid item xs={12} md={4}>
-          {selectionModel &&
-            currentMission?.speakers &&
-            selectionModel.map((s, i) => (
-              <Log key={i} logId={s.toString()} speakers={speakers} />
+          {currentMission?.speakers &&
+            selectionModel?.map((s) => (
+              <Log key={s} logId={s.toString()} speakers={speakers} />
             ))}
         </Grid>
       </Grid>

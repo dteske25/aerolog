@@ -31,7 +31,7 @@ const TitleBar = (props: ITitleBarProps) => {
   }
   return (
     <Fade in>
-      <Grid container justify="space-between" spacing={3}>
+      <Grid container justifyContent="space-between" spacing={3}>
         <Grid item md={4} sm={6} xs={12}>
           <Typography variant="h4">{props.title}</Typography>
         </Grid>
@@ -57,7 +57,7 @@ const TitleBar = (props: ITitleBarProps) => {
 
 const TitleBarSkeleton = () => {
   return (
-    <Grid container justify="space-between" spacing={3}>
+    <Grid container justifyContent="space-between" spacing={3}>
       <Grid item md={4} sm={6} xs={12}>
         <Skeleton variant="rect" height={40} />
       </Grid>
